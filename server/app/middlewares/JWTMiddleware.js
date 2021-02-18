@@ -7,7 +7,7 @@ exports.JWTMiddleware = (req, res, next) => {
         next();
     } else {
         if (token == null) return res.sendStatus(401);
-        jwt.verify(token, 'xgdsxyrfdcutfjufvjgiulvl', (err, user) => {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(403);
@@ -20,6 +20,7 @@ exports.JWTMiddleware = (req, res, next) => {
 }
 
 const exemptRoutes = [
-    '/auth/login',
-    '/auth/signup'
+    '/auth/signin',
+    '/auth/signup',
+    '/time',
 ]

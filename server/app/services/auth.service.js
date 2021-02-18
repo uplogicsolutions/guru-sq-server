@@ -1,19 +1,50 @@
 const jwt = require("jsonwebtoken");
+const db = require("../models");
+const User = db.userLogin;
+const CustomError = require("../utils/customError");
 
 exports.signup = async (data) => {
-    return {
-        message: "User signup successfully"
+    if (!data.username || !data.password) {
+        throw new CustomError("All fields are required.");
+    }
+    const response = await User.create({
+        username: data.username,
+        password: data.password
+    });
+    return response;
+}
+
+exports.signin = async (data) => {
+    const user = await User.findOne({where: {username: data.username, password: data.password}});
+    if(user && user.username && user.id) {
+        const token = jwt.sign(
+            {
+                id: user.id,
+                username: user.username
+            }, 
+            process.env.ACCESS_TOKEN_SECRET, 
+            { 
+                expiresIn: '2 days' 
+            }
+        );
+        return {
+            user: {
+                id: user.id,
+                username: user.username
+            },
+            token: token
+        };
+    } else {
+        const user = await User.findOne({where: {username: data.username}});
+        if(user && user.username && user.id) {
+            throw new CustomError("Incorrect password");
+        } else {
+            throw new CustomError("Invalid username");
+        }
     }
 }
 
-exports.login = async (data) => {
-    const token = jwt.sign({username: data.username, test: "hello"}, 'xgdsxyrfdcutfjufvjgiulvl', { expiresIn: '2 days' });
-    return {
-        token: token
-    }
-}
-
-exports.logout = async () => {
+exports.signout = async () => {
     return {
         message: "User logout successfully"
     }
