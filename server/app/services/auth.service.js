@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const db = require("../models");
+const TokenBlacklistService = require('../services/token-blacklist.service');
 const User = db.userLogin;
 const CustomError = require("../utils/customError");
 
@@ -44,8 +45,9 @@ exports.signin = async (data) => {
     }
 }
 
-exports.signout = async () => {
+exports.signout = async (token) => {
+    await TokenBlacklistService.addBlacklistedToken({token: token});
     return {
-        message: "User logout successfully"
+        message: "Successfully Signed Out"
     }
 }

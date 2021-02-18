@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const UserLogin = sequelize.define("user_logins", {
+    const UserLogin = sequelize.define("user_login", {
         username: {
             type: Sequelize.STRING,
             unique: true
@@ -7,6 +7,9 @@ module.exports = (sequelize, Sequelize) => {
         password: {
             type: Sequelize.STRING
         }
+    }, {
+        freezeTableName: true,
+        tableName: 'user_login'
     });
     return UserLogin;
 };

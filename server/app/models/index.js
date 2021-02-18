@@ -13,5 +13,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.userLogin = require("./user-login.model")(sequelize, Sequelize);
+db.tokenBlacklist = require("./token-blacklist.model")(sequelize, Sequelize);
 
 module.exports = db;

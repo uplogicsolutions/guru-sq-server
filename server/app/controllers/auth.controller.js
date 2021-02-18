@@ -14,7 +14,7 @@ exports.signup = async (req, res) => {
                     error.message || "Validation error."
             });
         } else if (error instanceof Sequelize.ValidationError) {
-            let currentUserError = error.get('user_logins.username');
+            let currentUserError = error.get('user_login.username');
             if (currentUserError.length > 0 && currentUserError[0].type == 'unique violation') {
                 res.status(400).send({
                     message: "Username not unique."
@@ -39,7 +39,7 @@ exports.signin = async (req, res) => {
         const response = await AuthService.signin(req.body);
         res.send(response);
     } catch (error) {
-        if(error instanceof CustomError) {
+        if (error instanceof CustomError) {
             res.status(400).send({
                 message:
                     error.message || "Invalid credentials"
@@ -55,8 +55,10 @@ exports.signin = async (req, res) => {
 
 exports.signout = async (req, res) => {
     try {
-        const response = AuthService.signout();
-        res.send(req.user);
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        const response = await AuthService.signout(token);
+        res.send(response);
     } catch (error) {
         res.status(500).send({
             message:
