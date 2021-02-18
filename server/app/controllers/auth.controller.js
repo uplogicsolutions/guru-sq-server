@@ -5,8 +5,9 @@ const CustomError = require("../utils/customError");
 exports.signup = async (req, res) => {
     try {
         const response = await AuthService.signup(req.body);
-        res.send(response);
+        res.send({id: response.id});
     } catch (error) {
+        console.log("hello")
         console.log(error)
         if (error instanceof CustomError) {
             res.status(400).send({
@@ -17,7 +18,7 @@ exports.signup = async (req, res) => {
             let currentUserError = error.get('user_login.username');
             if (currentUserError.length > 0 && currentUserError[0].type == 'unique violation') {
                 res.status(400).send({
-                    message: "Username not unique."
+                    message: "User already exist."
                 });
             } else {
                 res.status(400).send({
