@@ -5,7 +5,7 @@ const CustomError = require("../utils/customError");
 exports.signup = async (req, res) => {
     try {
         const response = await AuthService.signup(req.body);
-        res.send({id: response.id});
+        res.send({user_id: response.user_id});
     } catch (error) {
         console.log("hello")
         console.log(error)

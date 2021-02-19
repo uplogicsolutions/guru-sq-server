@@ -19,12 +19,12 @@ exports.signup = async (data) => {
 
 exports.signin = async (data) => {
     const user = await User.findOne({ where: { username: data.username } });
-    if (user && user.username && user.id) {
+    if (user && user.username && user.user_id) {
         // const valid = await bcrypt.compareSync(data.password, user.password);
         if (user.password == data.password) {
             const token = jwt.sign(
                 {
-                    id: user.id,
+                    user_id: user.user_id,
                     username: user.username
                 },
                 process.env.ACCESS_TOKEN_SECRET,
@@ -34,7 +34,7 @@ exports.signin = async (data) => {
             );
             return {
                 user: {
-                    id: user.id,
+                    user_id: user.user_id,
                     username: user.username
                 },
                 token: token
