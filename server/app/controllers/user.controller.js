@@ -6,6 +6,7 @@ const UserGuidanceSubjectsService = require('../services/user-guidance-subjects.
 const UserEducationMajorSubjectsService = require('../services/user-education-major-subjects.service');
 const UserEducationMinorSubjectsService = require('../services/user-education-minor-subjects.service');
 const UserEducationHistoryService = require('../services/user-education-history.service');
+const UserProfessionalDetailsService = require('../services/user-professional-details.service');
 const Sequelize = require('sequelize');
 const CustomError = require("../utils/customError");
 
@@ -192,6 +193,37 @@ exports.addUserEducationHistory = async (req, res) => {
         done = 4;
         res.send({
             data: response1
+        });
+    } catch (error) {
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'subjects') {
+                res.status(400).send({
+                    message: "Invalid subject."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
+
+exports.addUserProfessionalDetails = async (req, res) => {
+    try {
+        const response = await UserProfessionalDetailsService.createUserProfessionalDetails(req.body);
+        res.send({
+            data: response
         });
     } catch (error) {
         if (error instanceof CustomError) {

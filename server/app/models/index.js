@@ -32,5 +32,9 @@ db.userEducationMinorSubjects = require("./user-education-minor-subjects.model")
 db.userEducationHistory = require("./user-education-history.model")(sequelize, Sequelize);
 db.formOfContracts = require("./form-of-contracts.model")(sequelize, Sequelize);
 db.studentAgeGroups = require("./student-age-groups.model")(sequelize, Sequelize);
+db.userSelecetedStudentAgeGroups = require("./user-selected-student-age-groups.model")(sequelize, Sequelize);
+db.userJobCoreSubjects = require("./user-job-core-subjects.model")(sequelize, Sequelize);
+db.userJobSupplementarySubjects = require("./user-job-supplementary-subjects.model")(sequelize, Sequelize);
+db.userProfessionalDetails = require("./user-professional-details.model")(sequelize, Sequelize);
 
 module.exports = db;

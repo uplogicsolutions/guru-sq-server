@@ -8,5 +8,6 @@ router.post("/user-core-subjects", UserController.addUserCoreSubjects);
 router.post("/user-improvement-subjects", UserController.addUserImprovementSubjects);
 router.post("/user-guidance-subjects", UserController.addUserGuidanceSubjects);
 router.post("/user-education-history", UserController.addUserEducationHistory);
+router.post("/user-professional-details", UserController.addUserProfessionalDetails);
 
 module.exports = router;
