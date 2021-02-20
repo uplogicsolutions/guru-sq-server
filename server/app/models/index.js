@@ -26,5 +26,6 @@ db.subjects = require("./subjects.model")(sequelize, Sequelize);
 db.userCoreSubjects = require("./user-core-subjects.model")(sequelize, Sequelize);
 db.userGuidanceSubjects = require("./user-guidance-subjects.model")(sequelize, Sequelize);
 db.userImprovementSubjects = require("./user-improvement-subjects.model")(sequelize, Sequelize);
+db.passingGrades = require("./passing-grades.model")(sequelize, Sequelize);
 
 module.exports = db;

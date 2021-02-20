@@ -8,6 +8,7 @@ const SchoolBoardTypesModel = db.schoolBoardTypes;
 const TeachingLicensesModel = db.teachingLicenses;
 const MediumOfInstructionsModel = db.mediumOfInstructions;
 const SubjectsModel = db.subjects;
+const PassingGradesModel = db.passingGrades;
 
 exports.initDatabase = async () => {
     try {
@@ -18,6 +19,7 @@ exports.initDatabase = async () => {
         await initTeachingLicenses();
         await initMediumOfInstructions();
         await initSubjects();
+        await initPassingGrades();
     } catch(error) {
         console.log(error);
     }
@@ -82,6 +84,15 @@ const initSubjects = async () => {
         const current = await SubjectsModel.findOne({where: {subject_name: subject}});
         if(current == null) {
             await SubjectsModel.create({subject_name: subject});
+        }
+    }
+}
+
+const initPassingGrades = async () => {
+    for(let grade of constants.passingGrades) {
+        const current = await PassingGradesModel.findOne({where: {label: grade}});
+        if(current == null) {
+            await PassingGradesModel.create({label: grade});
         }
     }
 }

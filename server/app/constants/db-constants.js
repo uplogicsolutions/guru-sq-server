@@ -45,3 +45,10 @@ exports.subjects = [
     "Hindi",
     "Sanskrit"
 ]
+
+exports.passingGrades = [
+    "Distinction",
+    "First Division",
+    "Second Division",
+    "Third Division"
+]
