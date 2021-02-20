@@ -48,6 +48,7 @@ exports.addUserPersonalDetails = async (req, res) => {
 
 exports.addUserSchoolDetails = async (req, res) => {
     try {
+        req.body.user_id = req.user.user_id;
         const response = await UserSchoolDetailsService.createUserSchoolDetails(req.body);
         res.send({
             data: response
@@ -75,6 +76,10 @@ exports.addUserSchoolDetails = async (req, res) => {
             } else if (error.table == 'medium_of_instructions'){
                 res.status(400).send({
                     message: "Invalid medium of instruction."
+                });
+            } else if (error.table == 'teacher_types'){
+                res.status(400).send({
+                    message: "Invalid teacher type."
                 });
             } else {
                 res.status(400).send({
