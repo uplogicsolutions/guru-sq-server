@@ -3,6 +3,9 @@ const UserSchoolDetailsService = require('../services/user-school-details.servic
 const UserCoreSubjectsService = require('../services/user-core-subjects.service');
 const UserImprovementSubjectsService = require('../services/user-improvement-subjects.service');
 const UserGuidanceSubjectsService = require('../services/user-guidance-subjects.service');
+const UserEducationMajorSubjectsService = require('../services/user-education-major-subjects.service');
+const UserEducationMinorSubjectsService = require('../services/user-education-minor-subjects.service');
+const UserEducationHistoryService = require('../services/user-education-history.service');
 const Sequelize = require('sequelize');
 const CustomError = require("../utils/customError");
 
@@ -154,6 +157,43 @@ exports.addUserGuidanceSubjects = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'subjects') {
+                res.status(400).send({
+                    message: "Invalid subject."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
+
+exports.addUserEducationHistory = async (req, res) => {
+    try {
+        let done = 1;
+        const response1 = await UserEducationHistoryService.createUserEducationHistory(req.body);
+        done = 2;
+        const response2 = await UserEducationMajorSubjectsService.createUserEducationMajorSubjects(req.body);
+        done = 3;
+        const response3 = await UserEducationMinorSubjectsService.createUserEducationMinorSubjects(req.body);
+        done = 4;
+        res.send({
+            data: response1
+        });
+    } catch (error) {
         if (error instanceof CustomError) {
             res.status(400).send({
                 message:
