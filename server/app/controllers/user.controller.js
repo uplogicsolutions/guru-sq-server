@@ -12,12 +12,12 @@ const CustomError = require("../utils/customError");
 
 exports.addUserPersonalDetails = async (req, res) => {
     try {
-        const response = await UserPersonalDetailsService.createUserPersonalDetails(req.body);
+        req.body.user_id = req.user.user_id;
+        let response = await UserPersonalDetailsService.createUserPersonalDetails(req.body);
         res.send({
             data: response
         });
     } catch (error) {
-        console.log(error)
         if (error instanceof CustomError) {
             res.status(400).send({
                 message:
@@ -28,9 +28,13 @@ exports.addUserPersonalDetails = async (req, res) => {
                 res.status(400).send({
                     message: "Invalid mother tongue."
                 });
-            } else {
+            }else if (error.table == 'teacher_types') {
                 res.status(400).send({
                     message: "Invalid teacher type."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
                 });
             }
         } else {
