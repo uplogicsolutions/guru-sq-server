@@ -23,5 +23,8 @@ db.teachingLicenses = require("./teaching-licenses.model")(sequelize, Sequelize)
 db.mediumOfInstructions = require("./medium-of-instructions.model")(sequelize, Sequelize);
 db.userSchoolDetails = require("./user-school-details.model")(sequelize, Sequelize);
 db.subjects = require("./subjects.model")(sequelize, Sequelize);
+db.userCoreSubjects = require("./user-core-subjects.model")(sequelize, Sequelize);
+db.userGuidanceSubjects = require("./user-guidance-subjects.model")(sequelize, Sequelize);
+db.userImprovementSubjects = require("./user-improvement-subjects.model")(sequelize, Sequelize);
 
 module.exports = db;
