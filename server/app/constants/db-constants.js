@@ -10,3 +10,29 @@ exports.teacherTypes = [
     "Personal Tutor",
     "Coaching Institute Teacher"
 ];
+
+exports.schoolTypes = [
+    "Private",
+    "Government",
+    "Semi-Government"
+];
+
+exports.schoolBoardTypes = [
+    "CBSE",
+    "ICSE",
+    "International",
+    "Others"
+];
+
+exports.teachingLicenses = [
+    "M.Ed",
+    "B.Ed.",
+    "NTT",
+    "Other Certificate course"
+]
+
+exports.mediumOfInstructions = [
+    "Hindi",
+    "English",
+    "Marathi"
+]

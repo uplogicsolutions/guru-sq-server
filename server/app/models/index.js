@@ -17,5 +17,10 @@ db.tokenBlacklist = require("./token-blacklist.model")(sequelize, Sequelize);
 db.userPersonalDetails = require("./user-personal-details.model")(sequelize, Sequelize);
 db.teacherTypes = require("./teacher-types.model")(sequelize, Sequelize);
 db.languages = require("./languages.model")(sequelize, Sequelize);
+db.schoolTypes = require("./school-types.model")(sequelize, Sequelize);
+db.schoolBoardTypes = require("./school-board-types.model")(sequelize, Sequelize);
+db.teachingLicenses = require("./teaching-licenses.model")(sequelize, Sequelize);
+db.mediumOfInstructions = require("./medium-of-instructions.model")(sequelize, Sequelize);
+db.userSchoolDetails = require("./user-school-details.model")(sequelize, Sequelize);
 
 module.exports = db;
