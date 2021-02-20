@@ -3,8 +3,6 @@ const UserSchoolDetailsService = require('../services/user-school-details.servic
 const UserCoreSubjectsService = require('../services/user-core-subjects.service');
 const UserImprovementSubjectsService = require('../services/user-improvement-subjects.service');
 const UserGuidanceSubjectsService = require('../services/user-guidance-subjects.service');
-const UserEducationMajorSubjectsService = require('../services/user-education-major-subjects.service');
-const UserEducationMinorSubjectsService = require('../services/user-education-minor-subjects.service');
 const UserEducationHistoryService = require('../services/user-education-history.service');
 const UserProfessionalDetailsService = require('../services/user-professional-details.service');
 const Sequelize = require('sequelize');
@@ -196,15 +194,10 @@ exports.addUserGuidanceSubjects = async (req, res) => {
 
 exports.addUserEducationHistory = async (req, res) => {
     try {
-        let done = 1;
-        const response1 = await UserEducationHistoryService.createUserEducationHistory(req.body);
-        done = 2;
-        const response2 = await UserEducationMajorSubjectsService.createUserEducationMajorSubjects(req.body);
-        done = 3;
-        const response3 = await UserEducationMinorSubjectsService.createUserEducationMinorSubjects(req.body);
-        done = 4;
+        req.body.user_id = req.user.user_id;
+        const response = await UserEducationHistoryService.createUserEducationHistory(req.body);
         res.send({
-            data: response1
+            data: response
         });
     } catch (error) {
         if (error instanceof CustomError) {
