@@ -226,6 +226,7 @@ exports.addUserEducationHistory = async (req, res) => {
 
 exports.addUserProfessionalDetails = async (req, res) => {
     try {
+        req.body.user_id = req.user.user_id;
         const response = await UserProfessionalDetailsService.createUserProfessionalDetails(req.body);
         res.send({
             data: response

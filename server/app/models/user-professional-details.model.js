@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         employed_by: {
             type: Sequelize.ENUM,
-            values: ['male', 'female', 'other'],
+            values: ['School', 'Non-schooling education institute', 'Self-employed'],
             allowNull: true
         },
         educational_institute_name: {
