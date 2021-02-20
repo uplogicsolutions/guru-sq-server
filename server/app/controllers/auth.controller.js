@@ -7,7 +7,6 @@ exports.signup = async (req, res) => {
         const response = await AuthService.signup(req.body);
         res.send({user_id: response.user_id});
     } catch (error) {
-        console.log("hello")
         console.log(error)
         if (error instanceof CustomError) {
             res.status(400).send({

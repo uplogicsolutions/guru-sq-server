@@ -14,5 +14,8 @@ db.sequelize = sequelize;
 
 db.userLogin = require("./user-login.model")(sequelize, Sequelize);
 db.tokenBlacklist = require("./token-blacklist.model")(sequelize, Sequelize);
+db.userPersonalDetails = require("./user-personal-details.model")(sequelize, Sequelize);
+db.teacherTypes = require("./teacher-types.model")(sequelize, Sequelize);
+db.languages = require("./languages.model")(sequelize, Sequelize);
 
 module.exports = db;
