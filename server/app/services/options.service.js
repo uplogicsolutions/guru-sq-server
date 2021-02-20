@@ -8,6 +8,7 @@ const MediumOfInstructionsModel = db.mediumOfInstructions;
 const SubjectsModel = db.subjects;
 const PassingGradesModel = db.passingGrades;
 const FormOfContractsModel = db.formOfContracts;
+const StudentAgeGroupsModel = db.studentAgeGroups;
 
 exports.getOptions = async (data) => {
     const type = data.type || '';
@@ -47,6 +48,10 @@ exports.getOptions = async (data) => {
     } else if (type == 'form of contracts') {
         response = await FormOfContractsModel.findAll({
             attributes: ['option_id', 'label']
+        })
+    } else if (type == 'student age groups') {
+        response = await StudentAgeGroupsModel.findAll({
+            attributes: ['group_id', 'start_age', 'end_age']
         })
     }
     return response;

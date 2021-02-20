@@ -10,6 +10,7 @@ const MediumOfInstructionsModel = db.mediumOfInstructions;
 const SubjectsModel = db.subjects;
 const PassingGradesModel = db.passingGrades;
 const FormOfContractsModel = db.formOfContracts;
+const StudentAgeGroupsModel = db.studentAgeGroups;
 
 exports.initDatabase = async () => {
     try {
@@ -22,6 +23,7 @@ exports.initDatabase = async () => {
         await initSubjects();
         await initPassingGrades();
         await initFormOfContracts();
+        await initStudentAgeGroups();
     } catch(error) {
         console.log(error);
     }
@@ -104,6 +106,15 @@ const initFormOfContracts = async () => {
         const current = await FormOfContractsModel.findOne({where: {label: contract}});
         if(current == null) {
             await FormOfContractsModel.create({label: contract});
+        }
+    }
+}
+
+const initStudentAgeGroups = async () => {
+    for(let group of constants.ageGroups) {
+        const current = await StudentAgeGroupsModel.findOne({where: {start_age: group.start_age, end_age: group.end_age}});
+        if(current == null) {
+            await StudentAgeGroupsModel.create(group);
         }
     }
 }

@@ -29,13 +29,13 @@ exports.teachingLicenses = [
     "B.Ed.",
     "NTT",
     "Other Certificate course"
-]
+];
 
 exports.mediumOfInstructions = [
     "Hindi",
     "English",
     "Marathi"
-]
+];
 
 exports.subjects = [
     "Science",
@@ -44,18 +44,33 @@ exports.subjects = [
     "English",
     "Hindi",
     "Sanskrit"
-]
+];
 
 exports.passingGrades = [
     "Distinction",
     "First Division",
     "Second Division",
     "Third Division"
-]
+];
 
 exports.formOfContracts = [
     "Full Time",
     "Part Time",
     "Visiting",
     "Seasonal"
-]
+];
+
+exports.ageGroups = [
+    {
+        start_age: 13,
+        end_age: 18
+    },
+    {
+        start_age: 15,
+        end_age: 18
+    },
+    {
+        start_age: 17,
+        end_age: 25
+    },
+];
