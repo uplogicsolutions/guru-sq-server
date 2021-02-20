@@ -36,3 +36,12 @@ exports.mediumOfInstructions = [
     "English",
     "Marathi"
 ]
+
+exports.subjects = [
+    "Science",
+    "Social Science",
+    "Maths",
+    "English",
+    "Hindi",
+    "Sanskrit"
+]

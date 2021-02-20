@@ -22,5 +22,6 @@ db.schoolBoardTypes = require("./school-board-types.model")(sequelize, Sequelize
 db.teachingLicenses = require("./teaching-licenses.model")(sequelize, Sequelize);
 db.mediumOfInstructions = require("./medium-of-instructions.model")(sequelize, Sequelize);
 db.userSchoolDetails = require("./user-school-details.model")(sequelize, Sequelize);
+db.subjects = require("./subjects.model")(sequelize, Sequelize);
 
 module.exports = db;
