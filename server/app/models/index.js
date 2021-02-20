@@ -36,5 +36,6 @@ db.userSelecetedStudentAgeGroups = require("./user-selected-student-age-groups.m
 db.userJobCoreSubjects = require("./user-job-core-subjects.model")(sequelize, Sequelize);
 db.userJobSupplementarySubjects = require("./user-job-supplementary-subjects.model")(sequelize, Sequelize);
 db.userProfessionalDetails = require("./user-professional-details.model")(sequelize, Sequelize);
+db.userSecondaryLanguages = require("./user-secondary-languages.model")(sequelize, Sequelize);
 
 module.exports = db;
