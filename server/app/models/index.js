@@ -30,5 +30,6 @@ db.passingGrades = require("./passing-grades.model")(sequelize, Sequelize);
 db.userEducationMajorSubjects = require("./user-education-major-subjects.model")(sequelize, Sequelize);
 db.userEducationMinorSubjects = require("./user-education-minor-subjects.model")(sequelize, Sequelize);
 db.userEducationHistory = require("./user-education-history.model")(sequelize, Sequelize);
+db.formOfContracts = require("./form-of-contracts.model")(sequelize, Sequelize);
 
 module.exports = db;

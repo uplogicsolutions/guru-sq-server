@@ -52,3 +52,10 @@ exports.passingGrades = [
     "Second Division",
     "Third Division"
 ]
+
+exports.formOfContracts = [
+    "Full Time",
+    "Part Time",
+    "Visiting",
+    "Seasonal"
+]

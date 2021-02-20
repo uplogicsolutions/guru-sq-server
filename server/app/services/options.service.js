@@ -7,6 +7,7 @@ const TeachingLicensesModel = db.teachingLicenses;
 const MediumOfInstructionsModel = db.mediumOfInstructions;
 const SubjectsModel = db.subjects;
 const PassingGradesModel = db.passingGrades;
+const FormOfContractsModel = db.formOfContracts;
 
 exports.getOptions = async (data) => {
     const type = data.type || '';
@@ -41,6 +42,10 @@ exports.getOptions = async (data) => {
         })
     } else if (type == 'passing grades') {
         response = await PassingGradesModel.findAll({
+            attributes: ['option_id', 'label']
+        })
+    } else if (type == 'form of contracts') {
+        response = await FormOfContractsModel.findAll({
             attributes: ['option_id', 'label']
         })
     }

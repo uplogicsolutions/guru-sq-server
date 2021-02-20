@@ -9,6 +9,7 @@ const TeachingLicensesModel = db.teachingLicenses;
 const MediumOfInstructionsModel = db.mediumOfInstructions;
 const SubjectsModel = db.subjects;
 const PassingGradesModel = db.passingGrades;
+const FormOfContractsModel = db.formOfContracts;
 
 exports.initDatabase = async () => {
     try {
@@ -20,6 +21,7 @@ exports.initDatabase = async () => {
         await initMediumOfInstructions();
         await initSubjects();
         await initPassingGrades();
+        await initFormOfContracts();
     } catch(error) {
         console.log(error);
     }
@@ -93,6 +95,15 @@ const initPassingGrades = async () => {
         const current = await PassingGradesModel.findOne({where: {label: grade}});
         if(current == null) {
             await PassingGradesModel.create({label: grade});
+        }
+    }
+}
+
+const initFormOfContracts = async () => {
+    for(let contract of constants.formOfContracts) {
+        const current = await FormOfContractsModel.findOne({where: {label: contract}});
+        if(current == null) {
+            await FormOfContractsModel.create({label: contract});
         }
     }
 }
