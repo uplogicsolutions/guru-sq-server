@@ -97,6 +97,7 @@ exports.addUserSchoolDetails = async (req, res) => {
 
 exports.addUserCoreSubjects = async (req, res) => {
     try {
+        req.body.user_id = req.user.user_id;
         const response = await UserCoreSubjectsService.createUserCoreSubjects(req.body);
         res.send({
             data: response
@@ -129,6 +130,7 @@ exports.addUserCoreSubjects = async (req, res) => {
 
 exports.addUserImprovementSubjects = async (req, res) => {
     try {
+        req.body.user_id = req.user.user_id;
         const response = await UserImprovementSubjectsService.createUserImprovementSubjects(req.body);
         res.send({
             data: response
@@ -161,6 +163,7 @@ exports.addUserImprovementSubjects = async (req, res) => {
 
 exports.addUserGuidanceSubjects = async (req, res) => {
     try {
+        req.body.user_id = req.user.user_id;
         const response = await UserGuidanceSubjectsService.createUserGuidanceSubjects(req.body);
         res.send({
             data: response
