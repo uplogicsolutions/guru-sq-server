@@ -10,10 +10,29 @@ exports.signup = async (data) => {
         throw new CustomError("All fields are required.");
     }
     // const hash = await bcrypt.hashSync(data.password, 10);
-    const response = await User.create({
+    const user = await User.create({
         username: data.username,
         password: data.password
     });
+    if (user && user.username && user.user_id) {
+        const token = jwt.sign(
+            {
+                user_id: user.user_id,
+                username: user.username
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: '2 days'
+            }
+        );
+        return {
+            user: {
+                user_id: user.user_id,
+                username: user.username
+            },
+            token: token
+        };
+    }
     return response;
 }
 
