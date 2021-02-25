@@ -74,3 +74,33 @@ exports.ageGroups = [
         end_age: 25
     },
 ];
+
+exports.gender = [
+    {
+        label: 'Male',
+        value: 'male'
+    },
+    {
+        label: 'Female',
+        value: 'female'
+    },
+    {
+        label: 'Other',
+        value: 'other'
+    }
+]
+
+exports.proficiency = [
+    {
+        label: 'Basic',
+        value: 'basic'
+    },
+    {
+        label: 'Intermediate',
+        value: 'intermediate'
+    },
+    {
+        label: 'Advanced',
+        value: 'advanced'
+    }
+]
