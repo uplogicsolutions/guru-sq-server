@@ -12,11 +12,11 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: true
         },
         start_year: {
-            type: Sequelize.DATE,
+            type: Sequelize.INTEGER,
             allowNull: true
         },
         end_year: {
-            type: Sequelize.DATE,
+            type: Sequelize.INTEGER,
             allowNull: true
         },
         institute_name: {

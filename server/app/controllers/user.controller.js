@@ -127,8 +127,8 @@ exports.addUserSubjects = async (req, res) => {
 
 exports.addUserEducationHistory = async (req, res) => {
     try {
-        req.body.user_id = req.user.user_id;
-        const response = await UserEducationHistoryService.createUserEducationHistory(req.body);
+        const user_id = req.user.user_id;
+        const response = await UserEducationHistoryService.createUserEducationHistory(req.body, user_id);
         res.send({
             data: response
         });
