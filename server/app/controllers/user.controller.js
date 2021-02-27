@@ -1,8 +1,6 @@
 const UserPersonalDetailsService = require('../services/user-personal-details.service');
 const UserSchoolDetailsService = require('../services/user-school-details.service');
-const UserCoreSubjectsService = require('../services/user-core-subjects.service');
-const UserImprovementSubjectsService = require('../services/user-improvement-subjects.service');
-const UserGuidanceSubjectsService = require('../services/user-guidance-subjects.service');
+const UserSubjectsService = require('../services/user-subjects.service');
 const UserEducationHistoryService = require('../services/user-education-history.service');
 const UserProfessionalDetailsService = require('../services/user-professional-details.service');
 const Sequelize = require('sequelize');
@@ -93,76 +91,11 @@ exports.addUserSchoolDetails = async (req, res) => {
     }
 }
 
-exports.addUserCoreSubjects = async (req, res) => {
+exports.addUserSubjects = async (req, res) => {
     try {
-        req.body.user_id = req.user.user_id;
-        const response = await UserCoreSubjectsService.createUserCoreSubjects(req.body);
-        res.send({
-            data: response
-        });
-    } catch (error) {
-        console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
-            });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
-    }
-}
-
-exports.addUserImprovementSubjects = async (req, res) => {
-    try {
-        req.body.user_id = req.user.user_id;
-        const response = await UserImprovementSubjectsService.createUserImprovementSubjects(req.body);
-        res.send({
-            data: response
-        });
-    } catch (error) {
-        console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
-            });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
-    }
-}
-
-exports.addUserGuidanceSubjects = async (req, res) => {
-    try {
-        req.body.user_id = req.user.user_id;
-        const response = await UserGuidanceSubjectsService.createUserGuidanceSubjects(req.body);
+        const user_id = req.user.user_id;
+        req.body.user_id = user_id;
+        const response = await UserSubjectsService.createUserSubjects(req.body, user_id);
         res.send({
             data: response
         });
