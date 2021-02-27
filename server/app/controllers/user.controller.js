@@ -143,6 +143,10 @@ exports.addUserEducationHistory = async (req, res) => {
                 res.status(400).send({
                     message: "Invalid subject."
                 });
+            } else if (error.table == 'passing_grades') {
+                res.status(400).send({
+                    message: "Invalid passing grade."
+                });
             } else {
                 res.status(400).send({
                     message: "Invalid user."
