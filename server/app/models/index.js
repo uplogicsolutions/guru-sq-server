@@ -38,4 +38,8 @@ db.userJobSupplementarySubjects = require("./user-job-supplementary-subjects.mod
 db.userProfessionalDetails = require("./user-professional-details.model")(sequelize, Sequelize);
 db.userSecondaryLanguages = require("./user-secondary-languages.model")(sequelize, Sequelize);
 
+db.posts = require("./posts")(sequelize, Sequelize);
+db.postLikes = require("./post_likes")(sequelize, Sequelize);
+db.postComments = require("./post_comments")(sequelize, Sequelize);
+
 module.exports = db;
