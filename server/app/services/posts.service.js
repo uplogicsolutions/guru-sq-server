@@ -20,10 +20,10 @@ exports.createLike = async (data) => {
       where: { like_id: like.like_id }
     });
     if (num != 1) {
-      throw Error("Like does not exist");
+      throw Error("Something went wrong");
     }
     return {
-      message: "Successfully liked post"
+      message: "Successfully unliked post"
     }
   } else {
     //like
@@ -33,21 +33,9 @@ exports.createLike = async (data) => {
 }
 
 exports.createComment = async (data) => {
-  const comment = await PostComments.findOne({ where: { post_id: data.post_id, user_id: data.user_id } });
-  if (comment && comment.comment_id) {
-    //uncomment => delete
-    const num = await PostComments.destroy({
-      where: { comment_id: comment.comment_id }
-    });
-    if (num != 1) {
-      throw Error("Comment does not exist");
-    }
-    return {
-      message: "Successfully commented on post"
-    }
-  } else {
-    //comment
-    const newComment = await PostComments.create(data);
-    return newComment;
+  if (!data.comment) {
+    throw new CustomError("Comment is required");
   }
+  const comment = await PostComments.create(data);
+  return comment;
 }
