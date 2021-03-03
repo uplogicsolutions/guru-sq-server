@@ -9,10 +9,20 @@ const CustomError = require("../utils/customError");
 exports.addUserPersonalDetails = async (req, res) => {
     try {
         req.body.user_id = req.user.user_id;
-        let response = await UserPersonalDetailsService.createUserPersonalDetails(req.body);
-        res.send({
-            data: response
-        });
+        let user_id = req.user.user_id;
+        user_personal_details = await UserPersonalDetailsService.getUserPersonalDetails(user_id);
+        if (user_personal_details.response == null) {
+            let response = await UserPersonalDetailsService.createUserPersonalDetails(req.body);
+            res.send({
+                data: response
+            });
+
+        } else {
+            res.status(400).send({
+                message: "User details already exists."
+            });
+
+        }
     } catch (error) {
         if (error instanceof CustomError) {
             res.status(400).send({
@@ -24,7 +34,7 @@ exports.addUserPersonalDetails = async (req, res) => {
                 res.status(400).send({
                     message: "Invalid mother tongue."
                 });
-            }else if (error.table == 'teacher_types') {
+            } else if (error.table == 'teacher_types') {
                 res.status(400).send({
                     message: "Invalid teacher type."
                 });
@@ -61,19 +71,19 @@ exports.addUserSchoolDetails = async (req, res) => {
                 res.status(400).send({
                     message: "Invalid school type."
                 });
-            } else if (error.table == 'teaching_licenses'){
+            } else if (error.table == 'teaching_licenses') {
                 res.status(400).send({
                     message: "Invalid teaching license."
                 });
-            } else if (error.table == 'school_board_types'){
+            } else if (error.table == 'school_board_types') {
                 res.status(400).send({
                     message: "Invalid school board type."
                 });
-            } else if (error.table == 'medium_of_instructions'){
+            } else if (error.table == 'medium_of_instructions') {
                 res.status(400).send({
                     message: "Invalid medium of instruction."
                 });
-            } else if (error.table == 'teacher_types'){
+            } else if (error.table == 'teacher_types') {
                 res.status(400).send({
                     message: "Invalid teacher type."
                 });

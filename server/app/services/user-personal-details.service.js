@@ -11,6 +11,11 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     operatorsAliases: '0'
 });
 
+exports.getUserPersonalDetails = async (user_id) => {
+    let response = await UserPersonalDetailsModel.findOne({ where: { user_id: user_id } });
+    return {response};
+}
+
 exports.createUserPersonalDetails = async (data) => {
     data.secondary_languages.map((value) => value.user_id = data.user_id);
     const result = await sequelize.transaction(async (t) => {
