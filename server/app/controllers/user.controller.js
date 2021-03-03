@@ -19,7 +19,7 @@ exports.addUserPersonalDetails = async (req, res) => {
 
         } else {
             res.status(400).send({
-                message: "User details already exists."
+                message: "User personal details already exists."
             });
 
         }
@@ -54,11 +54,21 @@ exports.addUserPersonalDetails = async (req, res) => {
 
 exports.addUserSchoolDetails = async (req, res) => {
     try {
-        req.body.user_id = req.user.user_id;
-        const response = await UserSchoolDetailsService.createUserSchoolDetails(req.body);
-        res.send({
-            data: response
-        });
+        let user_id = req.user.user_id;
+        let user_school_details = await UserSchoolDetailsService.getUserSchoolDetails(user_id);
+
+        if (user_school_details.response == null) {
+            req.body.user_id = req.user.user_id;
+            const response = await UserSchoolDetailsService.createUserSchoolDetails(req.body);
+            res.send({
+                data: response
+            });
+        } else {
+            res.status(400).send({
+                message: "User school details already exists."
+            });
+        }
+
     } catch (error) {
         console.log(error)
         if (error instanceof CustomError) {

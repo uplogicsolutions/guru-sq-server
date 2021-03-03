@@ -4,6 +4,11 @@ const UserPersonalDetailsModel = db.userPersonalDetails;
 const TeacherTypeModel = db.teacherTypes;
 const CustomError = require("../utils/customError");
 
+exports.getUserSchoolDetails = async (user_id) => {
+    let response = await UserSchoolDetailsModel.findOne({ where: { user_id: user_id } });
+    return {response};
+}
+
 exports.createUserSchoolDetails = async (data) => {
     const teacher = await TeacherTypeModel.findOne({ where: { label: data.teacher_type } });
     if (teacher == null) throw new CustomError("Teacher type does not exist");
