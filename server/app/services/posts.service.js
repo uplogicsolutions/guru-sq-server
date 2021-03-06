@@ -2,6 +2,7 @@ const db = require("../models");
 const Posts = db.posts;
 const PostLikes = db.postLikes;
 const PostComments = db.postComments;
+const User = db.userLogin;
 const CustomError = require("../utils/customError");
 
 exports.createPost = async (data) => {
@@ -42,5 +43,29 @@ exports.createComment = async (data) => {
 
 exports.getPosts = async (user_id) => {
   let posts = await Posts.findAll();
-  return posts;
+  let resultPosts = [];
+  for (let post of posts) {
+    let user = await User.findOne({ where: { user_id: post.user_id } });
+    let likes = await PostLikes.findAll({ where: { post_id: post.post_id } });
+    let isLiked = false;
+    let like = await PostLikes.findOne({ where: { user_id: user_id, post_id: post.post_id } });
+    if (like) isLiked = true;
+    let comments = await PostComments.findAll({ where: { post_id: post.post_id } });
+    let resultComments = [];
+    for (let comment of comments) {
+      let user = await User.findOne({ where: { user_id: comment.user_id } });
+      resultComments.push({
+        ...comment.dataValues,
+        username: user.username,
+      })
+    }
+    resultPosts.push({
+      ...post.dataValues,
+      username: user.username,
+      likesCount: likes.length,
+      isLiked: isLiked,
+      comments: resultComments,
+    });
+  }
+  return resultPosts;
 }
