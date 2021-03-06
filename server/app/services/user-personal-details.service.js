@@ -13,7 +13,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 exports.getUserPersonalDetails = async (user_id) => {
     let response = await UserPersonalDetailsModel.findOne({ where: { user_id: user_id } });
-    return {response};
+    return response;
 }
 
 exports.createUserPersonalDetails = async (data) => {

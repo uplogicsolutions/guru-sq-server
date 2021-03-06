@@ -10,8 +10,8 @@ exports.addUserPersonalDetails = async (req, res) => {
     try {
         req.body.user_id = req.user.user_id;
         let user_id = req.user.user_id;
-        user_personal_details = await UserPersonalDetailsService.getUserPersonalDetails(user_id);
-        if (user_personal_details.response == null) {
+        let user_personal_details = await UserPersonalDetailsService.getUserPersonalDetails(user_id);
+        if (!user_personal_details) {
             let response = await UserPersonalDetailsService.createUserPersonalDetails(req.body);
             res.send({
                 data: response
@@ -24,6 +24,7 @@ exports.addUserPersonalDetails = async (req, res) => {
 
         }
     } catch (error) {
+        console.log(error)
         if (error instanceof CustomError) {
             res.status(400).send({
                 message:

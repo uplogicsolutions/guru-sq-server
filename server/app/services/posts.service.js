@@ -2,7 +2,7 @@ const db = require("../models");
 const Posts = db.posts;
 const PostLikes = db.postLikes;
 const PostComments = db.postComments;
-const User = db.userLogin;
+const User = db.userPersonalDetails;
 const CustomError = require("../utils/customError");
 
 exports.createPost = async (data) => {
@@ -23,13 +23,15 @@ exports.createLike = async (data) => {
     if (num != 1) {
       throw Error("Something went wrong");
     }
-    return {
-      message: "Successfully unliked post"
-    }
   } else {
     //like
     const newLike = await PostLikes.create(data);
-    return newLike;
+  }
+  const likes = await PostLikes.findAll({ where: { post_id: data.post_id } });
+  return {
+    post_id: data.post_id,
+    likesCount: likes.length,
+    message: "Successfull"
   }
 }
 
@@ -38,7 +40,11 @@ exports.createComment = async (data) => {
     throw new CustomError("Comment is required");
   }
   const comment = await PostComments.create(data);
-  return comment;
+  const comments = await PostComments.findAll({post_id: comment.post_id});
+  return {
+    post_id: comment.post_id,
+    comments: comments
+  };
 }
 
 exports.getPosts = async (user_id) => {
@@ -56,12 +62,14 @@ exports.getPosts = async (user_id) => {
       let user = await User.findOne({ where: { user_id: comment.user_id } });
       resultComments.push({
         ...comment.dataValues,
-        username: user.username,
+        firstName: user.first_name,
+        lastName: user.last_name
       })
     }
     resultPosts.push({
       ...post.dataValues,
-      username: user.username,
+      firstName: user.first_name,
+      lastName: user.last_name,
       likesCount: likes.length,
       isLiked: isLiked,
       comments: resultComments,
