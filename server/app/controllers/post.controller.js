@@ -98,3 +98,23 @@ exports.comment = async (req, res) => {
   }
 }
 
+exports.getPosts = async (req, res) => {
+  try {
+    const response = await PostService.getPosts(req.user.user_id);
+    res.send({
+      data: response
+    });
+  } catch (error) {
+    if (error instanceof CustomError) {
+      res.status(400).send({
+        message:
+          error.message || "Validation error."
+      });
+    } else {
+      res.status(500).send({
+        message:
+          error.message || "Some went wrong."
+      });
+    }
+  }
+}

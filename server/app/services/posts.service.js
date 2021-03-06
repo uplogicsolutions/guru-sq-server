@@ -39,3 +39,8 @@ exports.createComment = async (data) => {
   const comment = await PostComments.create(data);
   return comment;
 }
+
+exports.getPosts = async (user_id) => {
+  let posts = await Posts.findAll();
+  return posts;
+}
