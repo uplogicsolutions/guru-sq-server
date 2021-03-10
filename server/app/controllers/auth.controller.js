@@ -66,3 +66,15 @@ exports.signout = async (req, res) => {
         });
     }
 }
+
+exports.check = async (req, res) => {
+    try {
+        const response = await AuthService.checkUser(req.user);
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({
+            message:
+                error.message || "Some went wrong."
+        });
+    }
+}
