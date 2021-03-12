@@ -15,17 +15,21 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 exports.createUserProfessionalDetails = async (data) => {
     let core_subjects = [];
-    data.core_subjects.map((value) => core_subjects.push({user_id: data.user_id, subject_id: value}));
+    data.core_subjects.map((value) => core_subjects.push({ user_id: data.user_id, subject_id: value }));
     let supplementary_subjects = [];
-    data.supplementary_subjects.map((value) => supplementary_subjects.push({user_id: data.user_id, subject_id: value}));
+    data.supplementary_subjects.map((value) => supplementary_subjects.push({ user_id: data.user_id, subject_id: value }));
     let selected_age_groups = [];
-    data.selected_age_groups.map((value) => selected_age_groups.push({user_id: data.user_id, group_id: value}));
+    data.selected_age_groups.map((value) => selected_age_groups.push({ user_id: data.user_id, group_id: value }));
+    let jobs = [];
+    data.jobs.map((value) => jobs.push({ ...value, user_id: data.user_id }));
     const result = await sequelize.transaction(async (t) => {
         let response1 = await UserJobCoreSubjectsModel.bulkCreate(core_subjects, { transaction: t });
         let response2 = await UserJobSupplementarySubjectsModel.bulkCreate(supplementary_subjects, { transaction: t });
         let response3 = await UserSelectedStudentAgeGroupsModel.bulkCreate(selected_age_groups, { transaction: t });
-        let response = await UserProfessionalDetailsModel.create(data, { transaction: t });
-        response = response.get();
+        let response4 = await UserProfessionalDetailsModel.bulkCreate(jobs, { transaction: t });
+        let response = {};
+        response.jobs = [];
+        response4.map((value) => response.jobs.push(value.get()));
         response.major_subjects = [];
         response1.map((value) => response.major_subjects.push(value.get()));
         response.minor_subjects = [];
