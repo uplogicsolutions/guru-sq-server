@@ -104,3 +104,9 @@ exports.proficiency = [
         value: 'advanced'
     }
 ]
+
+exports.employerTypes = [
+    "School", 
+    "Non-schooling education institute", 
+    "Self-employed"
+]

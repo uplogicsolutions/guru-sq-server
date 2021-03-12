@@ -58,6 +58,8 @@ exports.getOptions = async (data) => {
         response = dbConstants.gender
     } else if (type == 'proficiency') {
         response = dbConstants.proficiency
+    } else if (type == 'employerTypes') {
+        response = dbConstants.employerTypes
     }
     return response;
 }
