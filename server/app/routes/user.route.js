@@ -14,5 +14,9 @@ router.put("/user-school-details", UserController.editUserSchoolDetails);
 router.put("/user-core-subjects", UserController.editUserCoreSubjects);
 router.put("/user-guidance-subjects", UserController.editUserGuidanceSubjects);
 router.put("/user-improvement-subjects", UserController.editUserImprovementSubjects);
+router.put("/user-education-details", UserController.editUserEducationDetails);
+router.put("/user-education-major-subjects", UserController.editUserEducationMajorSubjects);
+router.put("/user-education-minor-subjects", UserController.editUserEducationMinorSubjects);
+
 
 module.exports = router;

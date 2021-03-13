@@ -6,6 +6,7 @@ const UserEducationMinorSubjectsModel = db.userEducationMinorSubjects;
 const dbConfig = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
+const CustomError = require("../utils/customError");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
@@ -32,4 +33,59 @@ exports.createUserEducationHistory = async (data, user_id) => {
         return response;
     });
     return result;
+}
+
+exports.editUserEducationDetails = async (data) => {
+    let education = await UserEducationHistoryModel.findOne({where: {user_id: data.user_id, id: data.education.id}});
+    if(education) {
+        await UserEducationHistoryModel.update(data.education, {where: {user_id: data.user_id, id: data.education.id}});
+    } else {
+        throw new CustomError('Not found')
+    }
+}
+
+exports.editUserEducationMajorSubjects = async (data) => {
+    for(let currentSubject of data.remove) {
+        await UserEducationMajorSubjectsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                subject_id: currentSubject
+            }
+        })
+    }
+    for (let currentSubject of data.data) {
+        let record = await UserEducationMajorSubjectsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                subject_id: currentSubject.subject_id 
+            }
+        });
+        if (!record) {
+            currentSubject.user_id = data.user_id;
+            await UserEducationMajorSubjectsModel.create(currentSubject);
+        }
+    }
+}
+
+exports.editUserEducationMinorSubjects = async (data) => {
+    for(let currentSubject of data.remove) {
+        await UserEducationMinorSubjectsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                subject_id: currentSubject
+            }
+        })
+    }
+    for (let currentSubject of data.data) {
+        let record = await UserEducationMinorSubjectsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                subject_id: currentSubject.subject_id 
+            }
+        });
+        if (!record) {
+            currentSubject.user_id = data.user_id;
+            await UserEducationMinorSubjectsModel.create(currentSubject);
+        }
+    }
 }

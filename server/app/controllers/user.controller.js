@@ -452,3 +452,114 @@ exports.editUserImprovementSubjects = async (req, res) => {
         }
     }
 }
+
+exports.editUserEducationDetails = async (req, res) => {
+    try {
+        req.body.user_id = req.user.user_id;
+        await UserEducationHistoryService.editUserEducationDetails(req.body);
+        res.send({
+            data: 'Updated successfully'
+        });
+    } catch (error) {
+        console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'languages') {
+                res.status(400).send({
+                    message: "Invalid mother tongue."
+                });
+            } else if (error.table == 'teacher_types') {
+                res.status(400).send({
+                    message: "Invalid teacher type."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
+
+exports.editUserEducationMajorSubjects = async (req, res) => {
+    try {
+        req.body.user_id = req.user.user_id;
+        await UserEducationHistoryService.editUserEducationMajorSubjects(req.body);
+        res.send({
+            data: 'Updated successfully'
+        });
+    } catch (error) {
+        console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'languages') {
+                res.status(400).send({
+                    message: "Invalid mother tongue."
+                });
+            } else if (error.table == 'teacher_types') {
+                res.status(400).send({
+                    message: "Invalid teacher type."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
+
+exports.editUserEducationMinorSubjects = async (req, res) => {
+    try {
+        req.body.user_id = req.user.user_id;
+        await UserEducationHistoryService.editUserEducationMinorSubjects(req.body);
+        res.send({
+            data: 'Updated successfully'
+        });
+    } catch (error) {
+        console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'languages') {
+                res.status(400).send({
+                    message: "Invalid mother tongue."
+                });
+            } else if (error.table == 'teacher_types') {
+                res.status(400).send({
+                    message: "Invalid teacher type."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
