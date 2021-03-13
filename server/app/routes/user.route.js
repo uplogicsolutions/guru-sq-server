@@ -8,4 +8,7 @@ router.post("/user-subjects", UserController.addUserSubjects);
 router.post("/user-education-history", UserController.addUserEducationHistory);
 router.post("/user-professional-details", UserController.addUserProfessionalDetails);
 
+router.put("/user-personal-details", UserController.editUserPersonalDetails);
+router.put("/user-secondary-languages", UserController.editUserSecondaryLanguages);
+
 module.exports = router;

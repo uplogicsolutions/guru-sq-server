@@ -29,3 +29,39 @@ exports.createUserPersonalDetails = async (data) => {
     return result;
 
 }
+
+exports.editUserPersonalDetails = async (data) => {
+    let num = await UserPersonalDetailsModel.update(data, { where: { user_id: data.user_id } })
+    if (num == 1) {
+        return true;
+    }
+    return false;
+}
+
+exports.editUserSecondaryLanguages = async (data) => {
+    for(let currentLanguage of data.remove) {
+        await UserSecondaryLanguagesModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                language_id: currentLanguage
+            }
+        })
+    }
+
+    for (let currentLanguage of data.data) {
+        let record = await UserSecondaryLanguagesModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                language_id: currentLanguage.language_id 
+            }
+        });
+        if (record) {
+            record.proficiency = currentLanguage.proficiency;
+            record.save();
+        } else {
+            currentLanguage.user_id = data.user_id;
+            console.log(currentLanguage)
+            await UserSecondaryLanguagesModel.create(currentLanguage);
+        }
+    }
+}
