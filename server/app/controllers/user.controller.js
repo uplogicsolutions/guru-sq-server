@@ -3,8 +3,7 @@ const UserSchoolDetailsService = require('../services/user-school-details.servic
 const UserSubjectsService = require('../services/user-subjects.service');
 const UserEducationHistoryService = require('../services/user-education-history.service');
 const UserProfessionalDetailsService = require('../services/user-professional-details.service');
-const Sequelize = require('sequelize');
-const CustomError = require("../utils/customError");
+const CustomErrorUtils = require("../utils/customErrorUtils");
 
 exports.addUserPersonalDetails = async (req, res) => {
     try {
@@ -25,31 +24,10 @@ exports.addUserPersonalDetails = async (req, res) => {
         }
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'languages') {
-                res.status(400).send({
-                    message: "Invalid mother tongue."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -72,43 +50,10 @@ exports.addUserSchoolDetails = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'school_types') {
-                res.status(400).send({
-                    message: "Invalid school type."
-                });
-            } else if (error.table == 'teaching_licenses') {
-                res.status(400).send({
-                    message: "Invalid teaching license."
-                });
-            } else if (error.table == 'school_board_types') {
-                res.status(400).send({
-                    message: "Invalid school board type."
-                });
-            } else if (error.table == 'medium_of_instructions') {
-                res.status(400).send({
-                    message: "Invalid medium of instruction."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -122,27 +67,10 @@ exports.addUserSubjects = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -154,31 +82,11 @@ exports.addUserEducationHistory = async (req, res) => {
             data: response
         });
     } catch (error) {
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else if (error.table == 'passing_grades') {
-                res.status(400).send({
-                    message: "Invalid passing grade."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -190,27 +98,11 @@ exports.addUserProfessionalDetails = async (req, res) => {
             data: response
         });
     } catch (error) {
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -230,31 +122,10 @@ exports.editUserPersonalDetails = async (req, res) => {
         }
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'languages') {
-                res.status(400).send({
-                    message: "Invalid mother tongue."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -274,31 +145,10 @@ exports.editUserSecondaryLanguages = async (req, res) => {
         }
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'languages') {
-                res.status(400).send({
-                    message: "Invalid mother tongue."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -311,43 +161,10 @@ exports.editUserSchoolDetails = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'school_types') {
-                res.status(400).send({
-                    message: "Invalid school type."
-                });
-            } else if (error.table == 'teaching_licenses') {
-                res.status(400).send({
-                    message: "Invalid teaching license."
-                });
-            } else if (error.table == 'school_board_types') {
-                res.status(400).send({
-                    message: "Invalid school board type."
-                });
-            } else if (error.table == 'medium_of_instructions') {
-                res.status(400).send({
-                    message: "Invalid medium of instruction."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -361,27 +178,10 @@ exports.editUserCoreSubjects = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -395,27 +195,10 @@ exports.editUserGuidanceSubjects = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -429,27 +212,10 @@ exports.editUserImprovementSubjects = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'subjects') {
-                res.status(400).send({
-                    message: "Invalid subject."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -462,31 +228,10 @@ exports.editUserEducationDetails = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'languages') {
-                res.status(400).send({
-                    message: "Invalid mother tongue."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -499,31 +244,10 @@ exports.editUserEducationMajorSubjects = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'languages') {
-                res.status(400).send({
-                    message: "Invalid mother tongue."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
 
@@ -536,30 +260,9 @@ exports.editUserEducationMinorSubjects = async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        if (error instanceof CustomError) {
-            res.status(400).send({
-                message:
-                    error.message || "Validation error."
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
             });
-        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
-            if (error.table == 'languages') {
-                res.status(400).send({
-                    message: "Invalid mother tongue."
-                });
-            } else if (error.table == 'teacher_types') {
-                res.status(400).send({
-                    message: "Invalid teacher type."
-                });
-            } else {
-                res.status(400).send({
-                    message: "Invalid user."
-                });
-            }
-        } else {
-            res.status(500).send({
-                message:
-                    error.message || "Some went wrong."
-            });
-        }
     }
 }
