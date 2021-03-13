@@ -6,6 +6,7 @@ const User = db.userLogin;
 const UserPersonalDetails = db.userPersonalDetails;
 const UserSchoolDetails = db.userSchoolDetails;
 const UserSubjects = db.userCoreSubjects;
+const TeacherTypeModel = db.teacherTypes;
 const CustomError = require("../utils/customError");
 
 exports.signup = async (data) => {
@@ -89,27 +90,29 @@ exports.checkUser = async (user) => {
                     photo_url: userPersonalDetails.photo_url
                 }
             }
-            let userSchoolDetails = await UserSchoolDetails.findOne({ where: { user_id: user.user_id } });
-            if (userSchoolDetails && userSchoolDetails.user_id) {
-                let userCoreSubjects = await UserSubjects.findOne({ where: { user_id: user.user_id } });
-                if(userCoreSubjects && userCoreSubjects.user_id) {
-                    response = {
-                        ...response,
-                        isLoggedIn: true,
-                        redirectUrl: '/home'
-                    }
-                } else {
+            const schoolTeacher = await TeacherTypeModel.findOne({ where: { label: 'School Teacher' } });
+            if (userPersonalDetails.teacher_type == schoolTeacher.option_id) {
+                let userSchoolDetails = await UserSchoolDetails.findOne({ where: { user_id: user.user_id } });
+                if (!userSchoolDetails) {
                     return {
                         ...response,
                         isLoggedIn: true,
-                        redirectUrl: '/subjects'
+                        redirectUrl: '/school-teacher'
                     }
+                }
+            }
+            let userCoreSubjects = await UserSubjects.findOne({ where: { user_id: user.user_id } });
+            if (userCoreSubjects && userCoreSubjects.user_id) {
+                response = {
+                    ...response,
+                    isLoggedIn: true,
+                    redirectUrl: '/home'
                 }
             } else {
                 return {
                     ...response,
                     isLoggedIn: true,
-                    redirectUrl: '/school-teacher'
+                    redirectUrl: '/subjects'
                 }
             }
         } else {
@@ -121,8 +124,39 @@ exports.checkUser = async (user) => {
         }
     } else {
         return {
+            user: null,
             isLoggedIn: false,
             redirectUrl: '/login'
+        }
+    }
+    return response;
+}
+
+exports.getUser = async (user) => {
+    let response = {};
+    const userLogin = await User.findOne({ where: { username: user.username } });
+    if (userLogin && userLogin.user_id) {
+        const userPersonalDetails = await UserPersonalDetails.findOne({ where: { user_id: user.user_id } });
+        if (userPersonalDetails && userPersonalDetails.user_id) {
+            response = {
+                user: {
+                    user_id: userLogin.user_id,
+                    username: userLogin.username,
+                    first_name: userPersonalDetails.first_name,
+                    last_name: userPersonalDetails.last_name,
+                    mobile: userPersonalDetails.mobile,
+                    email: userPersonalDetails.email,
+                    photo_url: userPersonalDetails.photo_url
+                }
+            }
+        } else {
+            response = {
+                user: null
+            }
+        }
+    } else {
+        response = {
+            user: null
         }
     }
     return response;
