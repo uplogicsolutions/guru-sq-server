@@ -23,3 +23,72 @@ exports.createUserSubjects = async (data, user_id) => {
     });
     return result;
 }
+
+exports.editUserCoreSubjects = async (data) => {
+    for(let currentSubject of data.remove) {
+        await UserCoreSubjectsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                subject_id: currentSubject
+            }
+        })
+    }
+    for (let currentSubject of data.data) {
+        let record = await UserCoreSubjectsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                subject_id: currentSubject.subject_id 
+            }
+        });
+        if (!record) {
+            currentSubject.user_id = data.user_id;
+            await UserCoreSubjectsModel.create(currentSubject);
+        }
+    }
+}
+
+exports.editUserGuidanceSubjects = async (data) => {
+    for(let currentSubject of data.remove) {
+        await UserGuidanceSubjectsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                subject_id: currentSubject
+            }
+        })
+    }
+    for (let currentSubject of data.data) {
+        let record = await UserGuidanceSubjectsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                subject_id: currentSubject.subject_id 
+            }
+        });
+        if (!record) {
+            currentSubject.user_id = data.user_id;
+            await UserGuidanceSubjectsModel.create(currentSubject);
+        }
+    }
+}
+
+exports.editUserImprovementSubjects = async (data) => {
+    for(let currentSubject of data.remove) {
+        await UserImprovementSubjectsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                subject_id: currentSubject
+            }
+        })
+    }
+    for (let currentSubject of data.data) {
+        let record = await UserImprovementSubjectsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                subject_id: currentSubject.subject_id 
+            }
+        });
+        if (!record) {
+            currentSubject.user_id = data.user_id;
+            await UserImprovementSubjectsModel.create(currentSubject);
+        }
+    }
+}

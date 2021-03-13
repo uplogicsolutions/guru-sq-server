@@ -11,5 +11,8 @@ router.post("/user-professional-details", UserController.addUserProfessionalDeta
 router.put("/user-personal-details", UserController.editUserPersonalDetails);
 router.put("/user-secondary-languages", UserController.editUserSecondaryLanguages);
 router.put("/user-school-details", UserController.editUserSchoolDetails);
+router.put("/user-core-subjects", UserController.editUserCoreSubjects);
+router.put("/user-guidance-subjects", UserController.editUserGuidanceSubjects);
+router.put("/user-improvement-subjects", UserController.editUserImprovementSubjects);
 
 module.exports = router;

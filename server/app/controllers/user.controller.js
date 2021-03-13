@@ -350,3 +350,105 @@ exports.editUserSchoolDetails = async (req, res) => {
         }
     }
 }
+
+exports.editUserCoreSubjects = async (req, res) => {
+    try {
+        const user_id = req.user.user_id;
+        req.body.user_id = user_id;
+        const response = await UserSubjectsService.editUserCoreSubjects(req.body);
+        res.send({
+            data: response
+        });
+    } catch (error) {
+        console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'subjects') {
+                res.status(400).send({
+                    message: "Invalid subject."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
+
+exports.editUserGuidanceSubjects = async (req, res) => {
+    try {
+        const user_id = req.user.user_id;
+        req.body.user_id = user_id;
+        const response = await UserSubjectsService.editUserGuidanceSubjects(req.body);
+        res.send({
+            data: response
+        });
+    } catch (error) {
+        console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'subjects') {
+                res.status(400).send({
+                    message: "Invalid subject."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
+
+exports.editUserImprovementSubjects = async (req, res) => {
+    try {
+        const user_id = req.user.user_id;
+        req.body.user_id = user_id;
+        const response = await UserSubjectsService.editUserImprovementSubjects(req.body);
+        res.send({
+            data: response
+        });
+    } catch (error) {
+        console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'subjects') {
+                res.status(400).send({
+                    message: "Invalid subject."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}
