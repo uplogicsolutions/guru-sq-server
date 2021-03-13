@@ -266,3 +266,70 @@ exports.editUserEducationMinorSubjects = async (req, res) => {
             });
     }
 }
+
+exports.editUserJobCoreSubjects = async (req, res) => {
+    try {
+        const user_id = req.user.user_id;
+        req.body.user_id = user_id;
+        const response = await UserProfessionalDetailsService.editUserJobCoreSubjects(req.body);
+        res.send({
+            data: response
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
+            });
+    }
+}
+
+exports.editUserJobSupplementarySubjects = async (req, res) => {
+    try {
+        const user_id = req.user.user_id;
+        req.body.user_id = user_id;
+        const response = await UserProfessionalDetailsService.editUserJobSupplementarySubjects(req.body);
+        res.send({
+            data: response
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
+            });
+    }
+}
+
+exports.editUserSelectedAgeGroups = async (req, res) => {
+    try {
+        const user_id = req.user.user_id;
+        req.body.user_id = user_id;
+        const response = await UserProfessionalDetailsService.editUserSelectedAgeGroups(req.body);
+        res.send({
+            data: response
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
+            });
+    }
+}
+
+exports.editUserProfessionalDetails = async (req, res) => {
+    try {
+        req.body.user_id = req.user.user_id;
+        await UserProfessionalDetailsService.editUserProfessionalDetails(req.body);
+        res.send({
+            data: 'Updated successfully'
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
+            });
+    }
+}

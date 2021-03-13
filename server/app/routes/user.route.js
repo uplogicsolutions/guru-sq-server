@@ -17,6 +17,9 @@ router.put("/user-improvement-subjects", UserController.editUserImprovementSubje
 router.put("/user-education-details", UserController.editUserEducationDetails);
 router.put("/user-education-major-subjects", UserController.editUserEducationMajorSubjects);
 router.put("/user-education-minor-subjects", UserController.editUserEducationMinorSubjects);
-
+router.put("/user-job-core-subjects", UserController.editUserJobCoreSubjects);
+router.put("/user-job-supplementary-subjects", UserController.editUserJobSupplementarySubjects);
+router.put("/user-selected-age-groups", UserController.editUserSelectedAgeGroups);
+router.put("/user-professional-details", UserController.editUserProfessionalDetails);
 
 module.exports = router;

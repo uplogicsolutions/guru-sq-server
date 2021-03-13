@@ -40,3 +40,83 @@ exports.createUserProfessionalDetails = async (data) => {
     });
     return result;
 }
+
+exports.editUserJobCoreSubjects = async (data) => {
+    for(let currentSubject of data.remove) {
+        await UserJobCoreSubjectsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                subject_id: currentSubject
+            }
+        })
+    }
+    for (let currentSubject of data.data) {
+        let record = await UserJobCoreSubjectsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                subject_id: currentSubject.subject_id 
+            }
+        });
+        if (!record) {
+            currentSubject.user_id = data.user_id;
+            await UserJobCoreSubjectsModel.create(currentSubject);
+        }
+    }
+}
+
+exports.editUserJobSupplementarySubjects = async (data) => {
+    for(let currentSubject of data.remove) {
+        await UserJobSupplementarySubjectsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                subject_id: currentSubject
+            }
+        })
+    }
+    for (let currentSubject of data.data) {
+        let record = await UserJobSupplementarySubjectsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                subject_id: currentSubject.subject_id 
+            }
+        });
+        if (!record) {
+            currentSubject.user_id = data.user_id;
+            await UserJobSupplementarySubjectsModel.create(currentSubject);
+        }
+    }
+}
+
+exports.editUserSelectedAgeGroups = async (data) => {
+    for(let current of data.remove) {
+        await UserSelectedStudentAgeGroupsModel.destroy({
+            where: {
+                user_id: data.user_id, 
+                group_id: current
+            }
+        })
+    }
+    for (let current of data.data) {
+        let record = await UserSelectedStudentAgeGroupsModel.findOne({
+            where: { 
+                user_id: data.user_id, 
+                group_id: current
+            }
+        });
+        if (!record) {
+            await UserSelectedStudentAgeGroupsModel.create({
+                user_id: data.user_id, 
+                group_id: current
+            });
+        }
+    }
+}
+
+exports.editUserProfessionalDetails = async (data) => {
+    let job = await UserProfessionalDetailsModel.findOne({where: {user_id: data.user_id, id: data.job.id}});
+    if(job) {
+        await UserProfessionalDetailsModel.update(data.job, {where: {user_id: data.user_id, id: data.job.id}});
+    } else {
+        throw new CustomError('Not found')
+    }
+}
