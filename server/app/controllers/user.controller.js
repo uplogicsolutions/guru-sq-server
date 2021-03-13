@@ -301,3 +301,52 @@ exports.editUserSecondaryLanguages = async (req, res) => {
         }
     }
 }
+
+exports.editUserSchoolDetails = async (req, res) => {
+    try {
+        req.body.user_id = req.user.user_id;
+        await UserSchoolDetailsService.editUserSchoolDetails(req.body);
+        res.status(200).send({
+            message: "Updated school details."
+        });
+    } catch (error) {
+        console.log(error)
+        if (error instanceof CustomError) {
+            res.status(400).send({
+                message:
+                    error.message || "Validation error."
+            });
+        } else if (error instanceof Sequelize.ForeignKeyConstraintError) {
+            if (error.table == 'school_types') {
+                res.status(400).send({
+                    message: "Invalid school type."
+                });
+            } else if (error.table == 'teaching_licenses') {
+                res.status(400).send({
+                    message: "Invalid teaching license."
+                });
+            } else if (error.table == 'school_board_types') {
+                res.status(400).send({
+                    message: "Invalid school board type."
+                });
+            } else if (error.table == 'medium_of_instructions') {
+                res.status(400).send({
+                    message: "Invalid medium of instruction."
+                });
+            } else if (error.table == 'teacher_types') {
+                res.status(400).send({
+                    message: "Invalid teacher type."
+                });
+            } else {
+                res.status(400).send({
+                    message: "Invalid user."
+                });
+            }
+        } else {
+            res.status(500).send({
+                message:
+                    error.message || "Some went wrong."
+            });
+        }
+    }
+}

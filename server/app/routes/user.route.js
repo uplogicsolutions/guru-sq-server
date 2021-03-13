@@ -10,5 +10,6 @@ router.post("/user-professional-details", UserController.addUserProfessionalDeta
 
 router.put("/user-personal-details", UserController.editUserPersonalDetails);
 router.put("/user-secondary-languages", UserController.editUserSecondaryLanguages);
+router.put("/user-school-details", UserController.editUserSchoolDetails);
 
 module.exports = router;

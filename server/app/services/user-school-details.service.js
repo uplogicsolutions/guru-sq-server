@@ -6,7 +6,7 @@ const CustomError = require("../utils/customError");
 
 exports.getUserSchoolDetails = async (user_id) => {
     let response = await UserSchoolDetailsModel.findOne({ where: { user_id: user_id } });
-    return {response};
+    return { response };
 }
 
 exports.createUserSchoolDetails = async (data) => {
@@ -24,5 +24,28 @@ exports.createUserSchoolDetails = async (data) => {
         }
     } else {
         throw new CustomError("Could not update teacher type" + num);
+    }
+}
+
+exports.editUserSchoolDetails = async (data) => {
+    const user = await UserPersonalDetailsModel.findOne({ where: { user_id: data.user_id } });
+    const schoolTeacher = await TeacherTypeModel.findOne({ where: { label: 'School Teacher' } });
+    const teacher = await TeacherTypeModel.findOne({ where: { label: data.teacher_type } });
+    if (teacher == null) throw new CustomError("Teacher type does not exist");
+    await UserPersonalDetailsModel.update({ teacher_type: teacher.option_id }, { where: { user_id: data.user_id } });
+    if (user) {
+        if (user.teacher_type == schoolTeacher.option_id) {
+            if (teacher.option_id == schoolTeacher.option_id) {
+                await UserSchoolDetailsModel.update(data, { where: { user_id: data.user_id } });
+            } else {
+                await UserSchoolDetailsModel.destroy({ where: { user_id: data.user_id } });
+            }
+        } else {
+            if (teacher.option_id == schoolTeacher.option_id) {
+                await UserSchoolDetailsModel.create(data);
+            }
+        }
+    } else {
+        throw new CustomError("User does not exist");
     }
 }
