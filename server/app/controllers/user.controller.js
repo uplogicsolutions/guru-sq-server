@@ -333,3 +333,15 @@ exports.editUserProfessionalDetails = async (req, res) => {
             });
     }
 }
+
+exports.getProfile = async (req, res) => {
+    try {
+        const response = await UserPersonalDetailsService.getProfile(req.user);
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({
+            message:
+                error.message || "Some went wrong."
+        });
+    }
+}

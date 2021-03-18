@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/user.controller');
 
+router.get("/profile", UserController.getProfile);
+
 router.post("/user-personal-details", UserController.addUserPersonalDetails);
 router.post("/user-school-details", UserController.addUserSchoolDetails);
 router.post("/user-subjects", UserController.addUserSubjects);

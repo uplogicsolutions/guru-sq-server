@@ -39,10 +39,10 @@ exports.editUserPersonalDetails = async (data) => {
 }
 
 exports.editUserSecondaryLanguages = async (data) => {
-    for(let currentLanguage of data.remove) {
+    for (let currentLanguage of data.remove) {
         await UserSecondaryLanguagesModel.destroy({
             where: {
-                user_id: data.user_id, 
+                user_id: data.user_id,
                 language_id: currentLanguage
             }
         })
@@ -50,9 +50,9 @@ exports.editUserSecondaryLanguages = async (data) => {
 
     for (let currentLanguage of data.data) {
         let record = await UserSecondaryLanguagesModel.findOne({
-            where: { 
-                user_id: data.user_id, 
-                language_id: currentLanguage.language_id 
+            where: {
+                user_id: data.user_id,
+                language_id: currentLanguage.language_id
             }
         });
         if (record) {
@@ -64,4 +64,43 @@ exports.editUserSecondaryLanguages = async (data) => {
             await UserSecondaryLanguagesModel.create(currentLanguage);
         }
     }
+}
+
+exports.getProfile = async (user) => {
+    let response = {};
+    const userLogin = await db.userLogin.findOne({
+        attributes: ["username", "user_id"],
+        where: { user_id: user.user_id }
+    });
+    const userPersonalDetails = await db.userPersonalDetails.findOne({
+        attributes: ["first_name", "last_name", "mobile", "email", "photo_url", "gender", "dob"],
+        where: { user_id: user.user_id }
+    });
+    const userCoreSubjects = await db.userCoreSubjects.findAll({
+        attributes: ["subject_id"],
+        where: { user_id: user.user_id }
+    });
+    let coreSubjects = [];
+    userCoreSubjects.map( (subject) => coreSubjects.push(subject.subject_id));
+    const userGuidanceSubjects = await db.userGuidanceSubjects.findAll({
+        attributes: ["subject_id"],
+        where: { user_id: user.user_id }
+    });
+    let guidanceSubjects = [];
+    userGuidanceSubjects.map( (subject) => guidanceSubjects.push(subject.subject_id));
+    const userImprovementSubjects = await db.userImprovementSubjects.findAll({
+        attributes: ["subject_id"],
+        where: { user_id: user.user_id }
+    });
+    let improvementSubjects = [];
+    userImprovementSubjects.map( (subject) => improvementSubjects.push(subject.subject_id));
+    response = {
+        ...userLogin.dataValues,
+        ...userPersonalDetails.dataValues,
+        core_subjects: coreSubjects,
+        guidance_subjects: guidanceSubjects,
+        improvement_subjects: improvementSubjects
+    }
+
+    return response;
 }
