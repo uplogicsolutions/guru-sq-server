@@ -42,4 +42,8 @@ db.posts = require("./posts")(sequelize, Sequelize);
 db.postLikes = require("./post_likes")(sequelize, Sequelize);
 db.postComments = require("./post_comments")(sequelize, Sequelize);
 
+db.clusters = require("./clusters")(sequelize, Sequelize);
+db.clusterMessaging = require("./cluster_messaging")(sequelize, Sequelize);
+db.postNotifications = require("./post_notifications")(sequelize, Sequelize);
+
 module.exports = db;
