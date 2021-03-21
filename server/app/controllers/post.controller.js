@@ -37,7 +37,7 @@ exports.addPost = async (req, res) => {
 exports.like = async (req, res) => {
   try {
     req.body.user_id = req.user.user_id;
-    const response = await PostService.createLike(req.body);
+    const response = await PostService.createLike(req.body, req.io);
     res.send({
       data: response
     });
@@ -69,7 +69,7 @@ exports.like = async (req, res) => {
 exports.comment = async (req, res) => {
   try {
     req.body.user_id = req.user.user_id;
-    const response = await PostService.createComment(req.body);
+    const response = await PostService.createComment(req.body, req.io);
     res.send({
       data: response
     });

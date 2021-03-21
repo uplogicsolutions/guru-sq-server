@@ -27,6 +27,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     read: {
       type: Sequelize.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     }
   }, {

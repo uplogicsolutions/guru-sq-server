@@ -5,6 +5,8 @@ const PostComments = db.postComments;
 const User = db.userPersonalDetails;
 const CustomError = require("../utils/customError");
 
+const PostNotificationsService = require("./post_notifications.service");
+
 exports.createPost = async (data) => {
   if (!data.post_type || !data.visibility) {
     throw new CustomError("Imcomplete data.");
@@ -13,7 +15,7 @@ exports.createPost = async (data) => {
   return post;
 }
 
-exports.createLike = async (data) => {
+exports.createLike = async (data, io) => {
   const like = await PostLikes.findOne({ where: { post_id: data.post_id, user_id: data.user_id } });
   if (like && like.like_id) {
     //unlike
@@ -26,6 +28,7 @@ exports.createLike = async (data) => {
   } else {
     //like
     const newLike = await PostLikes.create(data);
+    await PostNotificationsService.like(newLike.dataValues, data.user_id, io);
   }
   const likes = await PostLikes.findAll({ where: { post_id: data.post_id } });
   return {
@@ -35,11 +38,12 @@ exports.createLike = async (data) => {
   }
 }
 
-exports.createComment = async (data) => {
+exports.createComment = async (data, io) => {
   if (!data.comment) {
     throw new CustomError("Comment is required");
   }
   const comment = await PostComments.create(data);
+  await PostNotificationsService.comment(comment, data.user_id, io);
   const comments = await PostComments.findAll({post_id: comment.post_id});
   return {
     post_id: comment.post_id,
