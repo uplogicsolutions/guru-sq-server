@@ -6,16 +6,25 @@ const http = require('http');
 
 const db = require("./app/models");
 const routes = require('./app/routes');
+const socketController = require('./app/controllers/socket.controller');
 const { initDatabase } = require('./app/services/init-database.service');
-const { JWTMiddleware } = require('./app/middlewares/JWTMiddleware');
 
 const app = express();
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 (async () => {
 	app.use(cors());
 	app.use(bodyParser.json({ limit: '100mb' }));
 	app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
-	app.use(JWTMiddleware);
+
+	io.on('connection', socketController.handleSocket);
+
 	app.use('/', routes);
 	try {
 		db.sequelize.sync().then(async() => {
@@ -23,7 +32,7 @@ const app = express();
 			await initDatabase();
 		});
 		console.log('Successfully Connected to MySQL database.');
-		await http.createServer(app).listen(8004, "0.0.0.0");
+		await server.listen(8004);
 		console.log('Express server listening on port 8004');
 	} catch (error) {
 		console.log(error);
