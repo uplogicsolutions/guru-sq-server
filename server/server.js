@@ -6,7 +6,7 @@ const http = require('http');
 
 const db = require("./app/models");
 const routes = require('./app/routes');
-const socketController = require('./app/controllers/socket.controller');
+const SocketMiddleware = require('./app/middlewares/SocketMiddleware');
 const { initDatabase } = require('./app/services/init-database.service');
 
 const app = express();
@@ -23,7 +23,7 @@ const io = require("socket.io")(server, {
 	app.use(bodyParser.json({ limit: '100mb' }));
 	app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
-	io.on('connection', socketController.handleSocket);
+	app.use(SocketMiddleware(io));
 
 	app.use('/', routes);
 	try {
