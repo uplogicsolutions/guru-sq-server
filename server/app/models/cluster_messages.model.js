@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const ClusterMessaging = sequelize.define("cluster_messaging", {
+  const ClusterMessages = sequelize.define("cluster_messages", {
     cluster_id: {
       type: Sequelize.UUID,
       allowNull: false,
@@ -31,7 +31,7 @@ module.exports = (sequelize, Sequelize) => {
     },
   }, {
     freezeTableName: true,
-    tableName: 'cluster_messaging'
+    tableName: 'cluster_messages'
   });
-  return ClusterMessaging;
+  return ClusterMessages;
 };

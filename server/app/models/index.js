@@ -44,6 +44,7 @@ db.postComments = require("./post_comments")(sequelize, Sequelize);
 db.postNotifications = require("./post_notifications.model")(sequelize, Sequelize);
 
 db.clusters = require("./clusters.model")(sequelize, Sequelize);
-db.clusterMessaging = require("./cluster_messaging.model")(sequelize, Sequelize);
+db.clusterMessages = require("./cluster_messages.model")(sequelize, Sequelize);
+db.clusterUsers = require("./cluster_users.model")(sequelize, Sequelize);
 
 module.exports = db;
