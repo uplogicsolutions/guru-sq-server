@@ -1,8 +1,7 @@
 const db = require("../models");
 const PostNotifications = db.postNotifications;
 const Posts = db.posts;
-const PostLikes = db.postLikes;
-const PostComments = db.postComments;
+const User = db.userPersonalDetails;
 
 exports.like = async (likeObj) => {
   const post = await Posts.findOne({ where: {post_id: likeObj.post_id}});
@@ -37,7 +36,7 @@ exports.like = async (likeObj) => {
 }
 
 
-exports.comment = async (commentObj, commentedByUserId, io) => {
+exports.comment = async (commentObj, commentedByUserId) => {
   const post = await Posts.findOne({ where: {post_id: commentObj.post_id}});
   let notification = await PostNotifications.create({
     user_id: post.user_id,
@@ -45,13 +44,19 @@ exports.comment = async (commentObj, commentedByUserId, io) => {
     type: "comment",
     description: `${commentedByUserId} commented on your post.`
   });
-  
-  const comments = await PostComments.findAll({ where: { post_id: commentObj.post_id } });
-  io.emit("comment", {
-    user_id: post.user_id,
-    commented_by_user_id: commentedByUserId,
-    commnets: comments,
-    post_id: post.post_id,
-    description: `${commentedByUserId} commented on your post.`
-  });
+}
+
+exports.getPostNotifications = async (user_id) => {
+  let notifications = await PostNotifications.findAll({ where: {user_id: user_id}});
+  return notifications;
+}
+
+exports.readPostNotifications = async (user_id) => {
+  let notifications = await PostNotifications.update({read: true}, {where: {user_id: user_id}});
+  return notifications;
+}
+
+exports.getUnreadNotificationsCount = async (user_id) => {
+  let notifications = await PostNotifications.findAll({ where: {user_id: user_id}});
+  return notifications.length;
 }

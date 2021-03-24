@@ -47,7 +47,7 @@ exports.createComment = async (data, io) => {
     throw new CustomError("Comment is required");
   }
   const comment = await PostComments.create(data);
-  await PostNotificationsService.comment(comment, data.user_id, io);
+  await PostNotificationsService.comment(comment, data.user_id);
   const comments = await PostComments.findAll({ where: { post_id: comment.post_id }});
   let resultComments = [];
   for (let comment of comments) {
