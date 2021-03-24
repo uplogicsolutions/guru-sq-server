@@ -17,8 +17,10 @@ exports.createPost = async (data) => {
 
 exports.createLike = async (data, io) => {
   const like = await PostLikes.findOne({ where: { post_id: data.post_id, user_id: data.user_id } });
+  let type = 'like';
   if (like && like.like_id) {
     //unlike
+    type = 'unlike';
     const num = await PostLikes.destroy({
       where: { like_id: like.like_id }
     });
@@ -28,14 +30,16 @@ exports.createLike = async (data, io) => {
   } else {
     //like
     const newLike = await PostLikes.create(data);
-    await PostNotificationsService.like(newLike.dataValues, data.user_id, io);
+    await PostNotificationsService.like(newLike.dataValues);
   }
   const likes = await PostLikes.findAll({ where: { post_id: data.post_id } });
-  return {
+  io.emit("like", {
+    liked_type: type,
+    liked_by_user_id: data.user_id,
+    likesCount: likes ? likes.length : 0,
     post_id: data.post_id,
-    likesCount: likes.length,
-    message: "Successfull"
-  }
+  });
+  return true;
 }
 
 exports.createComment = async (data, io) => {
@@ -44,7 +48,7 @@ exports.createComment = async (data, io) => {
   }
   const comment = await PostComments.create(data);
   await PostNotificationsService.comment(comment, data.user_id, io);
-  const comments = await PostComments.findAll({post_id: comment.post_id});
+  const comments = await PostComments.findAll({ post_id: comment.post_id });
   return {
     post_id: comment.post_id,
     comments: comments

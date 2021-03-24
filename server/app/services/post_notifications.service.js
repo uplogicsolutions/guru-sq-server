@@ -4,7 +4,7 @@ const Posts = db.posts;
 const PostLikes = db.postLikes;
 const PostComments = db.postComments;
 
-exports.like = async (likeObj, likedByUserId, io) => {
+exports.like = async (likeObj) => {
   const post = await Posts.findOne({ where: {post_id: likeObj.post_id}});
   let notification = await PostNotifications.findOne({
     where: {
@@ -34,14 +34,6 @@ exports.like = async (likeObj, likedByUserId, io) => {
       description: "1"
     });
   }
-  const likes = await PostLikes.findAll({ where: { post_id: likeObj.post_id } });
-  io.emit("like", {
-    user_id: post.user_id,
-    liked_by_user_id: likedByUserId,
-    likesCount: likes ? likes.length : 0,
-    post_id: post.post_id,
-    description:`${notification.description} people liked your post.`
-  });
 }
 
 
