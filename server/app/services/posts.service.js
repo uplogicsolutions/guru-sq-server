@@ -48,11 +48,21 @@ exports.createComment = async (data, io) => {
   }
   const comment = await PostComments.create(data);
   await PostNotificationsService.comment(comment, data.user_id, io);
-  const comments = await PostComments.findAll({ post_id: comment.post_id });
-  return {
+  const comments = await PostComments.findAll({ where: { post_id: comment.post_id }});
+  let resultComments = [];
+  for (let comment of comments) {
+    let user = await User.findOne({ where: { user_id: comment.user_id } });
+    resultComments.push({
+      ...comment.dataValues,
+      firstName: user.first_name,
+      lastName: user.last_name
+    })
+  }
+  io.emit("comment", {
     post_id: comment.post_id,
-    comments: comments
-  };
+    comments: resultComments,
+  });
+  return true;
 }
 
 exports.getPosts = async (user_id) => {
