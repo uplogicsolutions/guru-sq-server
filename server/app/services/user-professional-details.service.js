@@ -8,10 +8,16 @@ const dbConfig = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
-    operatorsAliases: '0'
-});
+    host: 'mysql80-afe9.euw2.cloud.ametnes.com',
+    port: 3316,
+    dialect: 'mysql',
+    dialectOptions: {
+      ssl: {
+        rejectUnauthorized: false,
+        ca: fs.readFileSync(path.resolve(__dirname,'../certs/BaltimoreCyberTrustRoot.crt.pem'))
+      }
+    }
+  });
 
 exports.createUserProfessionalDetails = async (data) => {
     let core_subjects = [];
