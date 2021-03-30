@@ -1,21 +1,7 @@
 const db = require("../models");
 const UserSecondaryLanguagesModel = db.userSecondaryLanguages;
 const UserPersonalDetailsModel = db.userPersonalDetails;
-
-const dbConfig = require("../config/db.config.js");
-
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: 'mysql80-afe9.euw2.cloud.ametnes.com',
-    port: 3316,
-    dialect: 'mysql',
-    dialectOptions: {
-      ssl: {
-        rejectUnauthorized: false,
-        ca: fs.readFileSync(path.resolve(__dirname,'../certs/BaltimoreCyberTrustRoot.crt.pem'))
-      }
-    }
-  });
+const sequelize = require("../config/sequelize.config");
 
 exports.getUserPersonalDetails = async (user_id) => {
     let response = await UserPersonalDetailsModel.findOne({ where: { user_id: user_id } });

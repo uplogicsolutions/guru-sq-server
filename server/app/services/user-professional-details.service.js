@@ -3,21 +3,7 @@ const UserProfessionalDetailsModel = db.userProfessionalDetails;
 const UserJobCoreSubjectsModel = db.userJobCoreSubjects;
 const UserJobSupplementarySubjectsModel = db.userJobSupplementarySubjects;
 const UserSelectedStudentAgeGroupsModel = db.userSelecetedStudentAgeGroups;
-
-const dbConfig = require("../config/db.config.js");
-
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: 'mysql80-afe9.euw2.cloud.ametnes.com',
-    port: 3316,
-    dialect: 'mysql',
-    dialectOptions: {
-      ssl: {
-        rejectUnauthorized: false,
-        ca: fs.readFileSync(path.resolve(__dirname,'../certs/BaltimoreCyberTrustRoot.crt.pem'))
-      }
-    }
-  });
+const sequelize = require("../config/sequelize.config");
 
 exports.createUserProfessionalDetails = async (data) => {
     let core_subjects = [];

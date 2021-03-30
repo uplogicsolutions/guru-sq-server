@@ -2,21 +2,8 @@ const db = require("../models");
 const UserCoreSubjectsModel = db.userCoreSubjects;
 const UserGuidanceSubjectsModel = db.userGuidanceSubjects;
 const UserImprovementSubjectsModel = db.userImprovementSubjects;
+const sequelize = require("../config/sequelize.config");
 
-const dbConfig = require("../config/db.config.js");
-
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: 'mysql80-afe9.euw2.cloud.ametnes.com',
-    port: 3316,
-    dialect: 'mysql',
-    dialectOptions: {
-      ssl: {
-        rejectUnauthorized: false,
-        ca: fs.readFileSync(path.resolve(__dirname,'../certs/BaltimoreCyberTrustRoot.crt.pem'))
-      }
-    }
-  });
 exports.createUserSubjects = async (data, user_id) => {
     data.core_subjects.map((subject) => subject.user_id = user_id);
     data.improvement_subjects.map((subject) => subject.user_id = user_id);
