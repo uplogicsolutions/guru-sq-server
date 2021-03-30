@@ -6,10 +6,6 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       primaryKey: true
     },
-    cluster_name: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
     description: {
       type: Sequelize.STRING,
       allowNull: false

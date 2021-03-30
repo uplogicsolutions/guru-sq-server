@@ -7,6 +7,7 @@ const UserPersonalDetails = db.userPersonalDetails;
 const UserSchoolDetails = db.userSchoolDetails;
 const UserSubjects = db.userCoreSubjects;
 const TeacherTypeModel = db.teacherTypes;
+const ClusterUsersService = require('../services/cluster_users.service')
 const CustomError = require("../utils/customError");
 
 exports.signup = async (data) => {
@@ -19,6 +20,10 @@ exports.signup = async (data) => {
         password: data.password
     });
     if (user && user.username && user.user_id) {
+        await ClusterUsersService.addUserToCluster({
+            user_id: user.user_id,
+            description: 'random',
+        });
         const token = jwt.sign(
             {
                 user_id: user.user_id,
