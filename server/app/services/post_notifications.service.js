@@ -57,6 +57,6 @@ exports.readPostNotifications = async (user_id) => {
 }
 
 exports.getUnreadNotificationsCount = async (user_id) => {
-  let notifications = await PostNotifications.findAll({ where: {user_id: user_id}});
+  let notifications = await PostNotifications.findAll({ where: {user_id: user_id, read: false}});
   return notifications.length;
 }
