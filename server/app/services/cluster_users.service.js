@@ -1,6 +1,8 @@
 const db = require("../models");
 const ClusterUsersModel = db.clusterUsers;
 const ClustersService = require("../services/clusters.service");
+const User = db.userPersonalDetails;
+
 const sequelize = require("../config/sequelize.config");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -38,4 +40,27 @@ exports.updateClusterForUser = async (data) => {
       user_id: data.user_id
     }
   });
+}
+
+exports.getClusterUsers = async (user) => {
+  const cluster = await ClusterUsersModel.findOne({
+    where: {
+      user_id: user.user_id,
+    }
+  });
+  const clusterUsers = await ClusterUsersModel.findAll({
+    where: {
+      cluster_id: cluster.cluster_id,
+    }
+  });
+  let users = [];
+  for (let clusterUser of clusterUsers) {
+    let userDetails = await User.findOne({ where: { user_id: clusterUser.user_id } });
+    users.push({
+      ...clusterUser,
+      name: `${userDetails.first_name} ${userDetails.last_name}`,
+      profileImage: 'https://thathasthuwellness.com/wp-content/uploads/2020/05/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg',
+    });
+  }
+  return users;
 }

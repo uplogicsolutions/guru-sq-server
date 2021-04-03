@@ -1,7 +1,6 @@
 const db = require("../models");
 const PostNotifications = db.postNotifications;
 const Posts = db.posts;
-const User = db.userPersonalDetails;
 
 exports.like = async (likeObj) => {
   const post = await Posts.findOne({ where: {post_id: likeObj.post_id}});
