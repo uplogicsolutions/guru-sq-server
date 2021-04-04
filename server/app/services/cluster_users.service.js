@@ -64,6 +64,7 @@ exports.getClusterUsers = async (user) => {
     users.push({
       ...clusterUser,
       name: name,
+      user_id: userDetails.user_id,
       profileImage: 'https://thathasthuwellness.com/wp-content/uploads/2020/05/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg',
     });
   }
