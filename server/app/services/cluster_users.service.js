@@ -56,9 +56,14 @@ exports.getClusterUsers = async (user) => {
   let users = [];
   for (let clusterUser of clusterUsers) {
     let userDetails = await User.findOne({ where: { user_id: clusterUser.user_id } });
+    let name = '';
+    if(userDetails) {
+      if(userDetails.first_name) name = userDetails.first_name;
+      if(userDetails.last_name) name = name + ' ' + userDetails.last_name;
+    }
     users.push({
       ...clusterUser,
-      name: `${userDetails.first_name} ${userDetails.last_name}`,
+      name: name,
       profileImage: 'https://thathasthuwellness.com/wp-content/uploads/2020/05/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg',
     });
   }
