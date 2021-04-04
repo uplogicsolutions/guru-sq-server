@@ -129,29 +129,6 @@ exports.editUserPersonalDetails = async (req, res) => {
     }
 }
 
-exports.editUserSecondaryLanguages = async (req, res) => {
-    try {
-        req.body.user_id = req.user.user_id;
-        let user_personal_details = await UserPersonalDetailsService.getUserPersonalDetails(req.user.user_id);
-        if (!user_personal_details) {
-            res.status(400).send({
-                message: "User does not exist."
-            });
-        } else {
-            await UserPersonalDetailsService.editUserSecondaryLanguages(req.body);
-            res.send({
-                data: 'Updated successfully'
-            });
-        }
-    } catch (error) {
-        console.log(error)
-        res.status(CustomErrorUtils.getCustomErrorStatus(error))
-            .send({
-                message: CustomErrorUtils.getCustomErrorMessage(error)
-            });
-    }
-}
-
 exports.editUserSchoolDetails = async (req, res) => {
     try {
         req.body.user_id = req.user.user_id;
@@ -168,45 +145,11 @@ exports.editUserSchoolDetails = async (req, res) => {
     }
 }
 
-exports.editUserCoreSubjects = async (req, res) => {
+exports.editUserSubjects = async (req, res) => {
     try {
         const user_id = req.user.user_id;
         req.body.user_id = user_id;
-        const response = await UserSubjectsService.editUserCoreSubjects(req.body);
-        res.send({
-            data: response
-        });
-    } catch (error) {
-        console.log(error)
-        res.status(CustomErrorUtils.getCustomErrorStatus(error))
-            .send({
-                message: CustomErrorUtils.getCustomErrorMessage(error)
-            });
-    }
-}
-
-exports.editUserGuidanceSubjects = async (req, res) => {
-    try {
-        const user_id = req.user.user_id;
-        req.body.user_id = user_id;
-        const response = await UserSubjectsService.editUserGuidanceSubjects(req.body);
-        res.send({
-            data: response
-        });
-    } catch (error) {
-        console.log(error)
-        res.status(CustomErrorUtils.getCustomErrorStatus(error))
-            .send({
-                message: CustomErrorUtils.getCustomErrorMessage(error)
-            });
-    }
-}
-
-exports.editUserImprovementSubjects = async (req, res) => {
-    try {
-        const user_id = req.user.user_id;
-        req.body.user_id = user_id;
-        const response = await UserSubjectsService.editUserImprovementSubjects(req.body);
+        const response = await UserSubjectsService.editUserSubjects(req.body);
         res.send({
             data: response
         });
@@ -348,8 +291,25 @@ exports.getProfile = async (req, res) => {
 
 exports.getUserPersonalDetails = async (req, res) => {
     try {
-        const response = await UserPersonalDetailsService.getUserPersonalDetails(req.user.user_id);
-        res.send(response);
+        const personalDetailsResponse = await UserPersonalDetailsService.getUserPersonalDetails(req.user.user_id);
+        const secondaryLanguages = await UserPersonalDetailsService.getUserSecondaryLanguages(req.user.user_id);
+        res.send({
+            ...personalDetailsResponse.dataValues,
+            secondary_languages: secondaryLanguages
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
+            });
+    }
+}
+
+exports.getUserSubjects = async (req, res) => {
+    try {
+        const subjects = await UserSubjectsService.getUserSubjects(req.user.user_id);
+        res.send(subjects);
     } catch (error) {
         console.log(error)
         res.status(CustomErrorUtils.getCustomErrorStatus(error))

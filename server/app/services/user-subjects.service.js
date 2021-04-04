@@ -16,71 +16,55 @@ exports.createUserSubjects = async (data, user_id) => {
     return result;
 }
 
-exports.editUserCoreSubjects = async (data) => {
-    for(let currentSubject of data.remove) {
-        await UserCoreSubjectsModel.destroy({
-            where: {
-                user_id: data.user_id, 
-                subject_id: currentSubject
-            }
-        })
-    }
-    for (let currentSubject of data.data) {
-        let record = await UserCoreSubjectsModel.findOne({
-            where: { 
-                user_id: data.user_id, 
-                subject_id: currentSubject.subject_id 
-            }
-        });
-        if (!record) {
-            currentSubject.user_id = data.user_id;
-            await UserCoreSubjectsModel.create(currentSubject);
+exports.getUserSubjects = async (user_id) => {
+    let coreSubjects = await UserCoreSubjectsModel.findAll({
+        where: {
+            user_id: user_id,
         }
+    });
+    let improvementSubjects = await UserImprovementSubjectsModel.findAll({
+        where: {
+            user_id: user_id,
+        }
+    });
+    let guidanceSubjects = await UserGuidanceSubjectsModel.findAll({
+        where: {
+            user_id: user_id,
+        }
+    });
+    return {
+        core_subjects: coreSubjects,
+        improvement_subjects: improvementSubjects,
+        guidance_subjects: guidanceSubjects,
     }
 }
 
-exports.editUserGuidanceSubjects = async (data) => {
-    for(let currentSubject of data.remove) {
-        await UserGuidanceSubjectsModel.destroy({
-            where: {
-                user_id: data.user_id, 
-                subject_id: currentSubject
-            }
-        })
-    }
-    for (let currentSubject of data.data) {
-        let record = await UserGuidanceSubjectsModel.findOne({
-            where: { 
-                user_id: data.user_id, 
-                subject_id: currentSubject.subject_id 
-            }
-        });
-        if (!record) {
-            currentSubject.user_id = data.user_id;
-            await UserGuidanceSubjectsModel.create(currentSubject);
+exports.editUserSubjects = async (data) => {
+    await UserCoreSubjectsModel.destroy({
+        where: {
+            user_id: data.user_id
         }
-    }
-}
-
-exports.editUserImprovementSubjects = async (data) => {
-    for(let currentSubject of data.remove) {
-        await UserImprovementSubjectsModel.destroy({
-            where: {
-                user_id: data.user_id, 
-                subject_id: currentSubject
-            }
-        })
-    }
-    for (let currentSubject of data.data) {
-        let record = await UserImprovementSubjectsModel.findOne({
-            where: { 
-                user_id: data.user_id, 
-                subject_id: currentSubject.subject_id 
-            }
-        });
-        if (!record) {
-            currentSubject.user_id = data.user_id;
-            await UserImprovementSubjectsModel.create(currentSubject);
+    });
+    data.core_subjects.map(async (subject) => {
+        subject.user_id = data.user_id;
+        await UserCoreSubjectsModel.create(subject);
+    });
+    await UserGuidanceSubjectsModel.destroy({
+        where: {
+            user_id: data.user_id
         }
-    }
+    });
+    data.guidance_subjects.map(async (subject) => {
+        subject.user_id = data.user_id;
+        await UserGuidanceSubjectsModel.create(subject);
+    });
+    await UserImprovementSubjectsModel.destroy({
+        where: {
+            user_id: data.user_id
+        }
+    });
+    data.improvement_subjects.map(async (subject) => {
+        subject.user_id = data.user_id;
+        await UserImprovementSubjectsModel.create(subject);
+    });
 }

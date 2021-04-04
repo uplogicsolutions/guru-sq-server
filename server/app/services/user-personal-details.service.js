@@ -8,6 +8,11 @@ exports.getUserPersonalDetails = async (user_id) => {
     return response;
 }
 
+exports.getUserSecondaryLanguages = async (user_id) => {
+    let languages = await UserSecondaryLanguagesModel.findAll({ where: { user_id: user_id } });
+    return languages;
+}
+
 exports.createUserPersonalDetails = async (data) => {
     data.secondary_languages.map((value) => value.user_id = data.user_id);
     const result = await sequelize.transaction(async (t) => {
@@ -25,6 +30,17 @@ exports.createUserPersonalDetails = async (data) => {
 exports.editUserPersonalDetails = async (data) => {
     let num = await UserPersonalDetailsModel.update(data, { where: { user_id: data.user_id } })
     if (num == 1) {
+        await UserSecondaryLanguagesModel.destroy({
+            where: {
+                user_id: data.user_id
+            }
+        });
+        for(let language of data.secondary_languages) {
+            await UserSecondaryLanguagesModel.create({
+                ...language,
+                user_id: data.user_id,
+            });
+        }
         return true;
     }
     return false;
