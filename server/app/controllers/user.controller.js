@@ -36,7 +36,7 @@ exports.addUserSchoolDetails = async (req, res) => {
         let user_id = req.user.user_id;
         let user_school_details = await UserSchoolDetailsService.getUserSchoolDetails(user_id);
 
-        if (user_school_details.response == null) {
+        if (!user_school_details) {
             req.body.user_id = req.user.user_id;
             const response = await UserSchoolDetailsService.createUserSchoolDetails(req.body);
             res.send({
@@ -310,6 +310,19 @@ exports.getUserSubjects = async (req, res) => {
     try {
         const subjects = await UserSubjectsService.getUserSubjects(req.user.user_id);
         res.send(subjects);
+    } catch (error) {
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
+            });
+    }
+}
+
+exports.getUserSchoolDetails = async (req, res) => {
+    try {
+        const details = await UserSchoolDetailsService.getUserSchoolDetails(req.user.user_id);
+        res.send(details);
     } catch (error) {
         console.log(error)
         res.status(CustomErrorUtils.getCustomErrorStatus(error))

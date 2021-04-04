@@ -5,8 +5,23 @@ const TeacherTypeModel = db.teacherTypes;
 const CustomError = require("../utils/customError");
 
 exports.getUserSchoolDetails = async (user_id) => {
-    let response = await UserSchoolDetailsModel.findOne({ where: { user_id: user_id } });
-    return { response };
+    const user = await UserPersonalDetailsModel.findOne({ where: { user_id: user_id } });
+    const teacherType = await TeacherTypeModel.findOne({ where: { option_id: user.teacher_type } });
+    let response = null;
+    if (teacherType) {
+        if (teacherType.label == 'School Teacher') {
+            const schoolDetails = await UserSchoolDetailsModel.findOne({ where: { user_id: user_id } });
+            response = {
+                teacher_type: teacherType.label,
+                ...schoolDetails.dataValues,
+            };
+        } else {
+            response = {
+                teacher_type: teacherType.label
+            };
+        }
+    }
+    return response;
 }
 
 exports.createUserSchoolDetails = async (data) => {
@@ -31,7 +46,7 @@ exports.editUserSchoolDetails = async (data) => {
     const user = await UserPersonalDetailsModel.findOne({ where: { user_id: data.user_id } });
     const schoolTeacher = await TeacherTypeModel.findOne({ where: { label: 'School Teacher' } });
     const teacher = await TeacherTypeModel.findOne({ where: { label: data.teacher_type } });
-    if (teacher == null) throw new CustomError("Teacher type does not exist");
+    if (!teacher) throw new CustomError("Teacher type does not exist");
     await UserPersonalDetailsModel.update({ teacher_type: teacher.option_id }, { where: { user_id: data.user_id } });
     if (user) {
         if (user.teacher_type == schoolTeacher.option_id) {

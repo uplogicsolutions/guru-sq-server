@@ -6,6 +6,7 @@ router.get("/profile", UserController.getProfile);
 
 router.get("/user-personal-details", UserController.getUserPersonalDetails);
 router.get("/user-subjects", UserController.getUserSubjects);
+router.get("/user-school-details", UserController.getUserSchoolDetails);
 
 router.post("/user-personal-details", UserController.addUserPersonalDetails);
 router.post("/user-school-details", UserController.addUserSchoolDetails);
