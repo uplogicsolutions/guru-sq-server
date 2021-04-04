@@ -3,5 +3,6 @@ module.exports = {
     USER: "XrEvhAcExV",
     PASSWORD: "PUk76ZsDQTPOYYIj5mAg",
     DB: "5615841642",
+    PORT: 3316,
     dialect: "mysql"
 };

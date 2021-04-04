@@ -5,6 +5,7 @@ var path = require("path");
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
+  port: dbConfig.PORT,
   dialect: 'mysql',
   dialectOptions: {
     ssl: {
