@@ -279,7 +279,7 @@ exports.editUserProfessionalDetails = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
     try {
-        const response = await UserPersonalDetailsService.getProfile(req.user);
+        const response = await UserPersonalDetailsService.getProfile(req.query.user_id);
         res.send(response);
     } catch (error) {
         res.status(500).send({
