@@ -4,8 +4,14 @@ const fs = require('fs');
 var path = require("path");
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: 'localhost',
+  host: dbConfig.HOST,
   dialect: 'mysql',
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: false,
+      ca: fs.readFileSync(path.resolve(__dirname,'../certs/BaltimoreCyberTrustRoot.crt.pem'))
+    }
+  }
 });
 
 module.exports = sequelize;
