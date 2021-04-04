@@ -345,3 +345,16 @@ exports.getProfile = async (req, res) => {
         });
     }
 }
+
+exports.getUserPersonalDetails = async (req, res) => {
+    try {
+        const response = await UserPersonalDetailsService.getUserPersonalDetails(req.user.user_id);
+        res.send(response);
+    } catch (error) {
+        console.log(error)
+        res.status(CustomErrorUtils.getCustomErrorStatus(error))
+            .send({
+                message: CustomErrorUtils.getCustomErrorMessage(error)
+            });
+    }
+}

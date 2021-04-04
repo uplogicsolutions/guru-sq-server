@@ -4,6 +4,8 @@ const UserController = require('../controllers/user.controller');
 
 router.get("/profile", UserController.getProfile);
 
+router.get("/user-personal-details", UserController.getUserPersonalDetails);
+
 router.post("/user-personal-details", UserController.addUserPersonalDetails);
 router.post("/user-school-details", UserController.addUserSchoolDetails);
 router.post("/user-subjects", UserController.addUserSubjects);
